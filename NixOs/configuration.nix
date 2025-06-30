@@ -32,7 +32,7 @@ in
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       #./modules/gnome_de.nix
-      ./modules/kde_de.nix
+      ./modules/plasma_de.nix
       
       ./modules/asus.nix
       ./modules/amd.nix
@@ -139,6 +139,8 @@ in
         CPU_MIN_PERF_ON_BAT = 0;
         CPU_MAX_PERF_ON_BAT = 20;
 
+        # 5200000 MAX (with cpu boost)
+        # 400000 MIN
         CPU_SCALING_MIN_FREQ_ON_AC = 400000;
         CPU_SCALING_MAX_FREQ_ON_AC = 4000000;
 
