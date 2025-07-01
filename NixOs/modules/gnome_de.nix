@@ -9,6 +9,7 @@
   environment.systemPackages = with pkgs; [
     gnome-software
     
+    gnomeExtensions.dash-to-dock
     gnomeExtensions.system-monitor
   ];
   

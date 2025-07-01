@@ -11,7 +11,7 @@
   
   # Install additional packages
   environment.systemPackages = with pkgs; [
-    #
+    kdePackages.filelight
   ];
   
   # Exclude unwanted packages
