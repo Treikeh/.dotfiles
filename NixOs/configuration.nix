@@ -218,6 +218,9 @@ in
     wget
     lshw
 
+    p7zip
+    unrar
+
     vscodium
     unityhub
     dotnet-combined
