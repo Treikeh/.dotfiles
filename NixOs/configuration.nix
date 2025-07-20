@@ -115,6 +115,13 @@ in
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # Enable autodiscovery of network printers
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
 
   # Enable fstrim
   services.fstrim.enable = lib.mkDefault true;
@@ -224,6 +231,7 @@ in
     vscodium
     unityhub
     dotnet-combined
+    steam-run
 
     protonvpn-gui
     lmms
@@ -231,10 +239,29 @@ in
   ];
 
 
+  # Exclude unwanted packages
+  environment.gnome.excludePackages = with pkgs; [
+    nano
+  ];
+
+
+  # Taken from: https://github.com/ARKye03/Xe_NixOS/blob/trunk/configuration.nix
+  environment.sessionVariables = {
+    #NIXOS_OZONE_WL = "1";
+    DOTNET_ROOT = "${dotnet-combined}";
+    #LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+  };
+
+  # Aliases
+  environment.shellAliases = {
+    update_on_boot = "sudo nixos-rebuild boot -I nixos-config=/home/treikeh/.dotfiles/NixOs/configuration.nix";
+    switch-nixos-config = "sudo nixos-rebuild switch -I nixos-config=/home/treikeh/.dotfiles/NixOs/configuration.nix";
+  };
+
+
   # Fonts
   fonts = {
     enableDefaultFonts = true;
-
     fonts = with pkgs; [
       noto-fonts
       noto-fonts-cjk-sans
@@ -267,15 +294,6 @@ in
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
   };
-
-
-  # Taken from: https://github.com/ARKye03/Xe_NixOS/blob/trunk/configuration.nix
-  environment.sessionVariables = {
-    #NIXOS_OZONE_WL = "1";
-    DOTNET_ROOT = "${dotnet-combined}";
-    #LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
-  };
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
