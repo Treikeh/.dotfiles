@@ -228,20 +228,15 @@ in
     p7zip
     unrar
 
-    vscodium
-    unityhub
     dotnet-combined
     steam-run
 
+    vscodium
+    unityhub
     protonvpn-gui
     lmms
     anki
-  ];
-
-
-  # Exclude unwanted packages
-  environment.gnome.excludePackages = with pkgs; [
-    nano
+    spotify
   ];
 
 
@@ -254,15 +249,15 @@ in
 
   # Aliases
   environment.shellAliases = {
-    update_on_boot = "sudo nixos-rebuild boot -I nixos-config=/home/treikeh/.dotfiles/NixOs/configuration.nix";
+    update-on-boot = "sudo nixos-rebuild boot -I nixos-config=/home/treikeh/.dotfiles/NixOs/configuration.nix";
     switch-nixos-config = "sudo nixos-rebuild switch -I nixos-config=/home/treikeh/.dotfiles/NixOs/configuration.nix";
   };
 
 
   # Fonts
   fonts = {
-    enableDefaultFonts = true;
-    fonts = with pkgs; [
+    enableDefaultPackages = true;
+    packages = with pkgs; [
       noto-fonts
       noto-fonts-cjk-sans
       ubuntu_font_family
@@ -286,6 +281,8 @@ in
     #
   ];
 
+  # Remove nano
+  programs.nano.enable = false;
 
   # Steam
   programs.steam = {
