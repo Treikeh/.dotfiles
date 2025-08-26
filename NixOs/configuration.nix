@@ -227,16 +227,24 @@ in
 
     p7zip
     unrar
+    vlc
+    ffmpeg-full
 
     dotnet-combined
     steam-run
 
     vscodium
     unityhub
+    python310Full # For Unity web builds
     protonvpn-gui
     lmms
     anki
     spotify
+    obs-studio
+    gimp3
+    tenacity
+    heroic
+    libreoffice-qt6
   ];
 
 
