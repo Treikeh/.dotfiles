@@ -33,6 +33,7 @@ in
       ./hardware-configuration.nix
       #./modules/gnome_de.nix
       ./modules/plasma_de.nix
+      #./modules/hyprland.nix
       
       ./modules/asus.nix
       ./modules/amd.nix
@@ -229,10 +230,13 @@ in
     unrar
     vlc
     ffmpeg-full
+    wine
+    stow
 
     dotnet-combined
     steam-run
 
+    figma-linux
     vscodium
     unityhub
     python310Full # For Unity web builds

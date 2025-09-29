@@ -17,6 +17,6 @@
   
   # Exclude unwanted packages
   environment.gnome.excludePackages = with pkgs; [
-    #
+    kdePackages.kate
   ];
 }
