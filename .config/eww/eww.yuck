@@ -1,0 +1,111 @@
+(defwindow bar
+    :monitor 0
+    :windowtype "dock"
+    :stacking "fg"
+    :exclusive true
+    :geometry (geometry :x 0 :y 0 :width "100%" :height "5px" :anchor "top center")
+    :reserve (struts :side "top" :distance "100px")
+    (bar)
+)
+
+
+(deflisten music_listen :initial "" "playerctl --follow metadata --format '{{ artist }} - {{ title }}' || true")
+
+(defpoll volume_poll :interval "5s" "scripts/getvol")
+(defpoll temp_poll :interval "1s" "scripts/temp_info")
+(defpoll time_poll :interval "10s" "date '+%H:%M %b %d, %Y'")
+
+
+(defwidget bar []
+    (centerbox :orientation "h"
+        (workspaces)
+        (music)
+        (sidestuff)
+    )
+)
+
+(defwidget sidestuff []
+    (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
+        (cpu_temp)
+        (cpu_percent)
+        (ram_percent)
+        (metric_module :label ""
+            :value volume_poll
+            :onchange "pamixer --set-volume {}"
+        )
+        (metric_module :label ""
+            :value {EWW_BATTERY["BAT1"].capacity}
+            :onchange ""
+        )
+        (systray)
+        time_poll
+    )
+)
+
+(defwidget workspaces []
+    (box :class "workspaces"
+        :orientation "h"
+        :space-evenly false
+        :halign "start"
+        :spacing 10
+        (button :onclick "hyprctl dispatch workspace 1" 1)
+        (button :onclick "hyprctl dispatch workspace 2" 2)
+        (button :onclick "hyprctl dispatch workspace 3" 3)
+        (button :onclick "hyprctl dispatch workspace 4" 4)
+        (button :onclick "~/.config/eww/scripts/launch_pavucontrol" "Audio")
+    )
+)
+
+(defwidget music []
+    (box :class "music"
+        :orientation "h"
+        :space-evenly false
+        :halign "center"
+        {music_listen != "" ? "🎵${music_listen}" : ""}
+    )
+)
+
+
+(defwidget metric_module [label value onchange]
+    (box :orientation "h"
+        :class "metric_module"
+        :space-evenly false
+        (box :class "label" label)
+        (scale
+            :min 0
+            :max 101
+            :active {onchange != ""}
+            :value value
+            :onchange onchange
+        )
+    )
+)
+
+(defwidget icon_module [icon ?class ?visible]
+    (box :class "${class} icon_module"
+        :orientation "h"
+        :halign "end"
+        :space-evenly false
+        :visible {visible ?: true} ; because the argument is optional
+        (label :class "icon-module__icon" :text "${icon}")
+        (children)
+    )
+)
+
+(defwidget cpu_temp []
+    (icon_module :class "cpu_temp" :icon "" 
+        (label :text temp_poll)
+    )
+)
+
+(defwidget cpu_percent []
+    (icon_module :class "cpu_percent" :icon "" 
+        (label :text "${round(EWW_CPU.avg, 0)}%")
+    )
+)
+
+(defwidget ram_percent []
+    (icon_module :class "ram_percent" :icon "" 
+        (label :text "${round(EWW_RAM.used_mem_perc, 0)}%")
+    )
+)

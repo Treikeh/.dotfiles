@@ -1,14 +1,17 @@
-c{ config, pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   services.displayManager.ly.enable = true;
+  #services.displayManager.lemurs.enable = true; # Have to wait until NixOs channel 25.11 is released
 
-  programs.hyprland.enable = true;
+  # Enable hypr stuff
   programs.hyprlock.enable = true;
   services.hypridle.enable = true;
-  
-  #programs.uwsm.enable = true;
-  #programs.hyprland.withUWSM = true;
+  programs.hyprland = {
+    enable = true;
+    #withUWSM = true; # Can't launch hyprland with uwsm while using ly
+    xwayland.enable = true;
+  };
 
 
   # Install additional packages
@@ -19,6 +22,8 @@ c{ config, pkgs, ... }:
     pavucontrol
     playerctl
     wl-clipboard
+    pamixer
+    lm_sensors
 
     kitty
     rofi
@@ -28,6 +33,7 @@ c{ config, pkgs, ... }:
     hyprpicker
     hyprcursor
     hyprsysteminfo
+    hyprpolkitagent
 
     networkmanagerapplet
     imv
@@ -41,17 +47,13 @@ c{ config, pkgs, ... }:
     cava
   ];
 
-
   # Exclude unwanted packages
   environment.gnome.excludePackages = with pkgs; [
     #
   ];
 
 
-  services.pipewire.wireplumber.enable = true;
-
-  services.blueman.enable = true;
-
+  # Thunar stuff
   programs.xfconf.enable = true; # Enable saving thunar preferences
   programs.thunar.enable = true;
   programs.thunar.plugins = with pkgs.xfce; [
@@ -59,8 +61,13 @@ c{ config, pkgs, ... }:
     thunar-volman
   ];
 
-  services.gvfs.enable = true;
-  services.tumbler.enable = true;
+  services.gvfs.enable = true;    # ?
+  services.tumbler.enable = true; # File thumbnails
+
+
+  services.blueman.enable = true; 
+
+  services.pipewire.wireplumber.enable = true;
 
   # Optional, hint Electron apps to use Wayland:
   environment.sessionVariables.NIXOS_OZONE_WL = "1";

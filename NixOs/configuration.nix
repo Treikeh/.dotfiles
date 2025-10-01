@@ -189,7 +189,7 @@ in
   users.users.treikeh = {
     isNormalUser = true;
     description = "Treikeh";
-    extraGroups = [ "networkmanager" "wheel" "input" ];
+    extraGroups = [ "networkmanager" "wheel" "input" "seat"];
     packages = with pkgs; [
       #
     ];
@@ -247,7 +247,7 @@ in
     # Unity stuff
     unityhub
     dotnet-combined # For unity
-    python310Full # For Unity web builds
+    python310 # For Unity web builds
 
     # Stuff i need for school
     figma-linux
