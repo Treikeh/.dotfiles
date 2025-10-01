@@ -32,8 +32,8 @@ in
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       #./modules/gnome_de.nix
-      ./modules/plasma_de.nix
-      #./modules/hyprland.nix
+      #./modules/plasma_de.nix
+      ./modules/hyprland.nix
       
       ./modules/asus.nix
       ./modules/amd.nix
@@ -62,14 +62,12 @@ in
   # Enable networking
   networking.networkmanager.enable = true;
 
-
   # Enable bluetooth
   hardware.bluetooth.enable = true;
 
 
   # Set your time zone.
   time.timeZone = "Europe/Oslo";
-
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_GB.UTF-8";
@@ -85,32 +83,34 @@ in
     LC_TIME = "nb_NO.UTF-8";
   };
 
+  # Configure console keymap
+  console.keyMap = "no";
 
   # Enable japanese inputs
   i18n.inputMethod = {
     type = "fcitx5";
     enable = true;
-    fcitx5.addons = with pkgs; [
-      #fcitx5-gtk
-      kdePackages.fcitx5-qt
-      fcitx5-mozc
-    ];
+    fcitx5 = {
+      waylandFrontend = true;
+      addons = with pkgs; [
+        fcitx5-gtk
+        fcitx5-mozc
+      ];
+    };
   };
 
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
+  # Enable touchpad support (enabled default in most desktopManager).
+  # services.xserver.libinput.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "no";
     variant = "nodeadkeys";
   };
-
-
-  # Configure console keymap
-  console.keyMap = "no";
 
 
   # Enable CUPS to print documents.
@@ -126,7 +126,6 @@ in
 
   # Enable fstrim
   services.fstrim.enable = lib.mkDefault true;
-  
 
   # Laptop power management
   # Gnome 40 introduced a new way of managing power, without tlp.
@@ -164,6 +163,7 @@ in
         STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
       };
   };
+
   services.power-profiles-daemon.enable = false;
   #services.tlp.enable = lib.mkDefault ((lib.versionOlder (lib.versions.majorMinor lib.version) "21.05") || !config.services.power-profiles-daemon.enable);
 
@@ -185,71 +185,15 @@ in
   };
 
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.treikeh = {
     isNormalUser = true;
     description = "Treikeh";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "input" ];
     packages = with pkgs; [
       #
     ];
   };
-
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-  
-
-  # Enable flatpak
-  services.flatpak.enable = true;
-
-
-  # Enable Appimage
-  programs.appimage.enable = true;
-  programs.appimage.binfmt = true;
-  programs.appimage.package = pkgs.appimage-run.override {
-    extraPkgs = pkgs: [
-      # missing libraries here, e.g.: `pkgs.libepoxy`
-    ];
-  };
-
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    git
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    lshw
-
-    p7zip
-    unrar
-    vlc
-    ffmpeg-full
-    wine
-    stow
-
-    dotnet-combined
-    steam-run
-
-    figma-linux
-    vscodium
-    unityhub
-    python310Full # For Unity web builds
-    protonvpn-gui
-    lmms
-    anki
-    spotify
-    obs-studio
-    gimp3
-    tenacity
-    heroic
-    libreoffice-qt6
-  ];
 
 
   # Taken from: https://github.com/ARKye03/Xe_NixOS/blob/trunk/configuration.nix
@@ -266,6 +210,49 @@ in
   };
 
 
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
+  # Enable flatpak
+  services.flatpak.enable = true;
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [
+    git
+    vim
+    wget
+    lshw
+    stow
+    steam-run
+
+    ffmpeg-full
+    p7zip
+    unrar
+
+    wine
+    vlc
+    vscodium
+    lmms
+    anki
+    spotify
+    obs-studio
+    gimp3
+    tenacity
+    heroic
+    libreoffice
+    #libreoffice-qt6
+    protonvpn-gui
+
+    # Unity stuff
+    unityhub
+    dotnet-combined # For unity
+    python310Full # For Unity web builds
+
+    # Stuff i need for school
+    figma-linux
+  ];
+
   # Fonts
   fonts = {
     enableDefaultPackages = true;
@@ -274,6 +261,8 @@ in
       noto-fonts-cjk-sans
       ubuntu_font_family
       unifont
+      font-awesome
+      roboto
     ];
 
     fontconfig = {
@@ -286,6 +275,8 @@ in
     };
   };
 
+  # Remove nano
+  programs.nano.enable = false;
 
   # LD fix
   programs.nix-ld.enable = true;
@@ -293,8 +284,14 @@ in
     #
   ];
 
-  # Remove nano
-  programs.nano.enable = false;
+  # Enable Appimage
+  programs.appimage.enable = true;
+  programs.appimage.binfmt = true;
+  programs.appimage.package = pkgs.appimage-run.override {
+    extraPkgs = pkgs: [
+      # missing libraries here, e.g.: `pkgs.libepoxy`
+    ];
+  };
 
   # Steam
   programs.steam = {
