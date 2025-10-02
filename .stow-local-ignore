@@ -12,6 +12,7 @@ _darcs
 \.hg
 
 \NixOs
+\.Ignore
 
 \.git
 \.gitignore

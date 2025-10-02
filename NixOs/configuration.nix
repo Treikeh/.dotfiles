@@ -32,8 +32,9 @@ in
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       #./modules/gnome_de.nix
-      #./modules/plasma_de.nix
-      ./modules/hyprland.nix
+      ./modules/plasma_de.nix
+      #./modules/hyprland.nix
+      #./modules/niri.nix
       
       ./modules/asus.nix
       ./modules/amd.nix
@@ -214,7 +215,7 @@ in
   nixpkgs.config.allowUnfree = true;
 
   # Enable flatpak
-  services.flatpak.enable = true;
+  #services.flatpak.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -224,32 +225,36 @@ in
     wget
     lshw
     stow
-    steam-run
-
     ffmpeg-full
+
+    vlc
     p7zip
     unrar
-
     wine
-    vlc
+    bottles
+    steam-run
+
+    librewolf
+    obsidian
     vscodium
-    lmms
-    anki
-    spotify
     obs-studio
-    gimp3
-    tenacity
-    heroic
     libreoffice
-    #libreoffice-qt6
     protonvpn-gui
 
-    # Unity stuff
+    gimp3
+    lmms
+    tenacity
+    famistudio
+    blockbench
+
+    anki
+    spotify
+    heroic
+
+    # Stuff i need for school
     unityhub
     dotnet-combined # For unity
     python310 # For Unity web builds
-
-    # Stuff i need for school
     figma-linux
   ];
 
