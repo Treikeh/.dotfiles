@@ -210,11 +210,9 @@ in
 
   # Aliases
   environment.shellAliases = {
-    update-on-boot = "sudo nixos-rebuild boot -I nixos-config=/home/treikeh/.dotfiles/NixOs/configuration.nix";
-    switch-nixos-config = "sudo nixos-rebuild switch -I nixos-config=/home/treikeh/.dotfiles/NixOs/configuration.nix";
-
     update-flake-boot = "sudo nixos-rebuild boot --flake ~/.dotfiles/#laptop";
     update-flake-switch = "sudo nixos-rebuild switch --flake ~/.dotfiles/#laptop";
+    delete-old-generations = "sudo nix-collect-garbage --delete-older-than 3";
   };
 
   # Enable flatpak
