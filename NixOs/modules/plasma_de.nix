@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-unstable, ... }:
 
 {
   # Enable the KDE Plasma Desktop environment
@@ -13,10 +13,17 @@
   environment.systemPackages = with pkgs; [
     kdePackages.filelight
     kdePackages.partitionmanager
+    
+    pkgs-unstable.rofi
+    
+    pkgs-unstable.kdePackages.krohnkite
+    pkgs-unstable.kdePackages.dynamic-workspaces
   ];
   
   # Exclude unwanted packages
   environment.gnome.excludePackages = with pkgs; [
     kdePackages.kate
+    kdePackages.kwrited
+    kdePackages.okular
   ];
 }

@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pkgs-unstable, ... }:
 
 # Taken from: https://github.com/ARKye03/Xe_NixOS/blob/trunk/configuration.nix
 # Somehow allows vscodium to use the dotnet-sdk
@@ -27,13 +27,6 @@ let
   });
 in
 
-# Add unstable as a option
-# https://www.reddit.com/r/NixOS/comments/159ph3h/can_i_declare_unstable_channel_for_all/
-# https://discourse.nixos.org/t/installing-multiple-packages-from-unstable-channel-in-configuration-nix/19271/2
-let
-  unstable = import <unstable> {};
-in
-
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -50,6 +43,7 @@ in
   
   # Change NixOs config file path
   #nix.nixPath = [ "nixos-config=/home/treikeh/.dotfiles/NixOs/configuration.nix" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Bootloader.
   #boot.loader.systemd-boot.enable = true;
@@ -215,10 +209,13 @@ in
   environment.shellAliases = {
     update-on-boot = "sudo nixos-rebuild boot -I nixos-config=/home/treikeh/.dotfiles/NixOs/configuration.nix";
     switch-nixos-config = "sudo nixos-rebuild switch -I nixos-config=/home/treikeh/.dotfiles/NixOs/configuration.nix";
+
+    update-flake-boot = "sudo nixos-rebuild boot --flake ~/.dotfiles/#laptop";
+    update-flake-switch = "sudo nixos-rebuild switch --flake ~/.dotfiles/#laptop";
   };
 
 
-  # Allow unfree packages and unstable channel
+  # Allow unfree packages 
   nixpkgs.config.allowUnfree = true;
 
   # Enable flatpak
@@ -241,7 +238,7 @@ in
     bottles
     steam-run
 
-    unstable.librewolf
+    pkgs-unstable.librewolf
     obsidian
     vscodium
     obs-studio
@@ -251,8 +248,8 @@ in
     gimp3
     lmms
     tenacity
-    unstable.famistudio
-    unstable.blockbench
+    pkgs-unstable.famistudio
+    pkgs-unstable.blockbench
 
     anki
     spotify
