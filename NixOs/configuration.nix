@@ -27,6 +27,13 @@ let
   });
 in
 
+# Add unstable as a option
+# https://www.reddit.com/r/NixOS/comments/159ph3h/can_i_declare_unstable_channel_for_all/
+# https://discourse.nixos.org/t/installing-multiple-packages-from-unstable-channel-in-configuration-nix/19271/2
+let
+  unstable = import <unstable> {};
+in
+
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -94,8 +101,8 @@ in
     fcitx5 = {
       waylandFrontend = true;
       addons = with pkgs; [
-        fcitx5-gtk
         fcitx5-mozc
+        kdePackages.fcitx5-qt
       ];
     };
   };
@@ -211,11 +218,11 @@ in
   };
 
 
-  # Allow unfree packages
+  # Allow unfree packages and unstable channel
   nixpkgs.config.allowUnfree = true;
 
   # Enable flatpak
-  #services.flatpak.enable = true;
+  services.flatpak.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -234,18 +241,18 @@ in
     bottles
     steam-run
 
-    librewolf
+    unstable.librewolf
     obsidian
     vscodium
     obs-studio
-    libreoffice
+    libreoffice-qt6
     protonvpn-gui
 
     gimp3
     lmms
     tenacity
-    famistudio
-    blockbench
+    unstable.famistudio
+    unstable.blockbench
 
     anki
     spotify
