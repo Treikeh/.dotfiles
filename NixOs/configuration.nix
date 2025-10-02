@@ -41,9 +41,12 @@ in
       ./modules/nvidia.nix
     ];
   
-  # Change NixOs config file path
-  #nix.nixPath = [ "nixos-config=/home/treikeh/.dotfiles/NixOs/configuration.nix" ];
+  # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # Allow unfree packages. Would prefer to have this in the flake. Similar to what i have with the pkgs-unstable
+  nixpkgs.config.allowUnfree = true;
+
 
   # Bootloader.
   #boot.loader.systemd-boot.enable = true;
@@ -213,10 +216,6 @@ in
     update-flake-boot = "sudo nixos-rebuild boot --flake ~/.dotfiles/#laptop";
     update-flake-switch = "sudo nixos-rebuild switch --flake ~/.dotfiles/#laptop";
   };
-
-
-  # Allow unfree packages 
-  nixpkgs.config.allowUnfree = true;
 
   # Enable flatpak
   services.flatpak.enable = true;

@@ -1,3 +1,6 @@
+# Learning resources
+# https://www.youtube.com/watch?v=rEovNpg7J0M
+# https://nixos-and-flakes.thiscute.world/nixos-with-flakes/downgrade-or-upgrade-packages
 {
   description = "A very basic flake";
 
@@ -20,6 +23,17 @@
   }:
   let
     system = "x86_64-linux";
+
+    # The "allowUnfree" option doesn't work
+    #pkgs = import nixpkgs {
+    #  inherit system;
+    #  config.allowUnfree = true;
+    #};
+
+    pkgs-unstable = import nixpkgs-unstable {
+      inherit system;
+      config.allowUnfree = true;
+    };
   in
   {
     nixosConfigurations = {
@@ -27,13 +41,7 @@
       laptop = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit system;
-          
-          # Add the option to add unstable packages
-          # https://nixos-and-flakes.thiscute.world/nixos-with-flakes/downgrade-or-upgrade-packages
-          pkgs-unstable = import nixpkgs-unstable {
-            inherit system;
-            config.allowUnfree = true;
-          };
+          inherit pkgs-unstable;
         };
         # Modules this host uses
         modules = [
