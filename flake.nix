@@ -45,7 +45,7 @@
         };
         # Modules this host uses
         modules = [
-          ./NixOs/configuration.nix
+          ./configuration.nix
         ];
       };
     };

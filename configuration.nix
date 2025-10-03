@@ -31,19 +31,18 @@ in
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./modules/asus.nix
+      ./modules/amd.nix
+      ./modules/nvidia.nix
+
       #./modules/gnome_de.nix
       #./modules/plasma_de.nix
       #./modules/hyprland.nix
       ./modules/niri.nix
-      
-      ./modules/asus.nix
-      ./modules/amd.nix
-      ./modules/nvidia.nix
     ];
   
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
   # Allow unfree packages. Would prefer to have this in the flake. Similar to what i have with the pkgs-unstable
   nixpkgs.config.allowUnfree = true;
 
