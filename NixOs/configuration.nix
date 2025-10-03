@@ -32,9 +32,9 @@ in
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       #./modules/gnome_de.nix
-      ./modules/plasma_de.nix
+      #./modules/plasma_de.nix
       #./modules/hyprland.nix
-      #./modules/niri.nix
+      ./modules/niri.nix
       
       ./modules/asus.nix
       ./modules/amd.nix
@@ -227,6 +227,7 @@ in
     lshw
     stow
     ffmpeg-full
+    lm_sensors
 
     vlc
     p7zip

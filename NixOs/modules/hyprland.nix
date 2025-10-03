@@ -23,7 +23,6 @@
     playerctl
     wl-clipboard
     pamixer
-    lm_sensors
 
     kitty
     rofi
