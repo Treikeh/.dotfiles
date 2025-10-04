@@ -1,23 +1,14 @@
 * {
   all: unset; // Unsets everything so you can style everything from scratch
+  font-size:large
 }
 
-// Global Styles
-.bar {
-    background-color: #3a3a3a;
-    color: #b0b4bc;
-    padding: 10px;
-}
 
-// Styles on classes (see eww.yuck for more information)
+// MODULES
 
-.sidestuff slider {
-    all: unset;
-    color: #ffd5cd;
-}
-
-.sidestuff button:hover {
-    color: #D35D6E;
+.systray {
+    padding-left: 10px;
+    padding-right: 15px;
 }
 
 .metric_module scale trough highlight {
@@ -42,10 +33,82 @@
     margin-right: 10px;
 }
 
-.label-ram {
-    font-size: large;
+
+
+// BAR
+
+.bar {
+    background-color: transparent;
+    color: #ffffff;
+    margin: 3px;
 }
 
-.workspaces button:hover {
-    color: #D35D6E;
+
+.apps,
+.music,
+.sidestuff {
+    background-color: #3a3a3a;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 1em;
+    padding-right: 1em;
+    border-radius: 0.5em;
+}
+
+.apps {
+    button {
+        &:hover {
+            color: #D35D6E;
+        }
+    }
+}
+
+//.music {}
+
+.sidestuff {
+    button {
+        &:hover {
+            color: #D35D6E;
+        }
+    }
+
+    slider {
+        all: unset;
+        color: #ffd5cd;
+    }
+}
+
+.workspaces {
+    button {
+        &:hover {
+            color: #D35D6E;
+        }
+    }
+}
+
+
+// BACKGROUND
+
+.power_buttons_box {
+    padding: 1em;
+    button {
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+        padding-left: 1em;
+        padding-right: 1em;
+        border-radius: 1em;
+        background-color: #3a3a3a;
+
+        &:hover {
+            color: #D35D6E;
+            //background-color: #71c3f6;
+        }
+
+        &:first-child {
+            color: #D35D6E;
+            &:hover {
+                color: #71c3f6;
+            }
+        }
+    }
 }

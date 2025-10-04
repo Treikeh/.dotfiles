@@ -98,7 +98,7 @@ in
       waylandFrontend = true;
       addons = with pkgs; [
         fcitx5-mozc
-        kdePackages.fcitx5-qt
+        fcitx5-gtk
       ];
     };
   };
@@ -239,12 +239,13 @@ in
     obsidian
     vscodium
     obs-studio
-    libreoffice-qt6
+    libreoffice
     protonvpn-gui
 
     gimp3
     lmms
-    tenacity
+    #tenacity
+    pkgs-unstable.audacity
     pkgs-unstable.famistudio
     pkgs-unstable.blockbench
 
