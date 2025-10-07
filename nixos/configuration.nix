@@ -228,6 +228,9 @@ in
     ffmpeg-full
     lm_sensors
 
+    pkgs-unstable.gcc
+    pkgs-unstable.rustup
+
     vlc
     p7zip
     unrar
