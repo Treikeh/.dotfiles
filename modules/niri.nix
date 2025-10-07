@@ -16,13 +16,16 @@
     playerctl
     wl-clipboard
     pamixer
+    file-roller
 
     alacritty
     fuzzel
     eww
     hyprpaper
-    swayidle
-    swaylock
+    hypridle
+    hyprlock
+    #swayidle
+    #swaylock
     networkmanagerapplet
 
     imv

@@ -1,3 +1,5 @@
 #!/bin/sh
-eww open background
 eww open bar
+eww open background
+eww open background_hdmi
+

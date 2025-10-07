@@ -41,8 +41,7 @@
 ; BAR
 
 (defwindow bar
-    :monitor 0
-    :windowtype "dock"
+    :monitor "eDP-1"
     :stacking "fg"
     :exclusive true
     :geometry (geometry :x 0 :y 0 :width "100%" :height "1%" :anchor "top center")
@@ -148,12 +147,19 @@
 ; BACKGROUND
 
 (defwindow background
-    :monitor 0
-    :windowtype "normal"
+    :monitor "eDP-1"
     :stacking "bg"
-    :wm-ignore true
+    :geometry (geometry :width "100%" :height "96%")
+    (box ;:style "background-image: url('./wallpaper.png')"
+        (power_buttons)
+    )
+)
+
+(defwindow background_hdmi
+    :monitor "HDMI-A-1"
+    :stacking "bg"
     :geometry (geometry :width "100%" :height "100%")
-    (box ;:style "background-image: url('./soup.png')"
+    (box ;:style "background-image: url('./wallpaper.png')"
         (power_buttons)
     )
 )

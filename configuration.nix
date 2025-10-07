@@ -237,7 +237,8 @@ in
 
     pkgs-unstable.librewolf
     obsidian
-    vscodium
+    #vscodium
+    vscodium-fhs
     obs-studio
     libreoffice
     protonvpn-gui
