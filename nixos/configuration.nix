@@ -209,8 +209,8 @@ in
 
   # Aliases
   environment.shellAliases = {
-    update-flake-boot = "sudo nixos-rebuild boot --flake ~/.dotfiles/#laptop";
-    update-flake-switch = "sudo nixos-rebuild switch --flake ~/.dotfiles/#laptop";
+    update-flake-boot = "sudo nixos-rebuild boot --flake ~/.dotfiles/nixos/#laptop";
+    update-flake-switch = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos/#laptop";
     delete-old-generations = "sudo nix-collect-garbage --delete-older-than 3";
   };
 

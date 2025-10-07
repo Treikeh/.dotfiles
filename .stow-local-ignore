@@ -11,12 +11,7 @@ CVS
 _darcs
 \.hg
 
-/flake.nix
-/flake.lock
-/configuration.nix
-/hardware-configuration.nix
-/modules
-/dev_env
+/nixos
 \.Ignore
 
 \.git
