@@ -16,6 +16,7 @@ _darcs
 /configuration.nix
 /hardware-configuration.nix
 /modules
+/dev_env
 \.Ignore
 
 \.git
