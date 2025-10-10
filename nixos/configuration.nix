@@ -211,7 +211,7 @@ in
   environment.shellAliases = {
     update-flake-boot = "sudo nixos-rebuild boot --flake ~/.dotfiles/nixos/#laptop";
     update-flake-switch = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos/#laptop";
-    delete-old-generations = "sudo nix-collect-garbage --delete-older-than 3";
+    delete-old-generations = "sudo nix-collect-garbage --delete-older-than 14d";
   };
 
   # Enable flatpak
@@ -228,7 +228,6 @@ in
     ffmpeg-full
     lm_sensors
 
-    pkgs-unstable.gcc
     pkgs-unstable.rustup
 
     vlc
@@ -240,15 +239,13 @@ in
 
     pkgs-unstable.librewolf
     obsidian
-    #vscodium
-    vscodium-fhs
+    pkgs-unstable.vscodium-fhs
     obs-studio
     libreoffice
     protonvpn-gui
 
-    gimp3
-    lmms
-    #tenacity
+    pkgs-unstable.gimp
+    pkgs-unstable.lmms
     pkgs-unstable.audacity
     pkgs-unstable.famistudio
     pkgs-unstable.blockbench
@@ -258,7 +255,7 @@ in
     heroic
 
     # Stuff i need for school
-    unityhub
+    pkgs-unstable.unityhub
     dotnet-combined # For unity
     python310 # For Unity web builds
     figma-linux
