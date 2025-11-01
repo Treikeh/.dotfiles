@@ -10,13 +10,14 @@
   # Install additional packages
   environment.systemPackages = with pkgs; [
     mako
-    cliphist
-    brightnessctl
+    pamixer
     pavucontrol
     playerctl
+    brightnessctl
+    cliphist
     wl-clipboard
-    pamixer
-    file-roller
+    wl-mirror
+    file-roller # Gnome zip and extract archives tool
 
     alacritty
     fuzzel
@@ -36,8 +37,8 @@
     cava
 
     xwayland-satellite
-    kdePackages.polkit-kde-agent-1
 
+    polkit_gnome
     xdg-desktop-portal-gtk
     xdg-desktop-portal-gnome
   ];
@@ -51,11 +52,13 @@
   programs.xfconf.enable = true; # Enable saving thunar preferences
   programs.thunar.enable = true;
   programs.thunar.plugins = with pkgs.xfce; [
-    thunar-archive-plugin
     thunar-volman
+    thunar-archive-plugin
+    thunar-media-tags-plugin
   ];
 
   services.gvfs.enable = true;    # Something about making trash work with thunar
+  services.udisks2.enable = true;
   services.tumbler.enable = true; # File thumbnails
 
 
@@ -73,6 +76,22 @@
     extraPortals = [pkgs.xdg-desktop-portal-gtk];
     configPackages = [pkgs.xdg-desktop-portal-gtk];
     config.common.default = "gtk";
+  };
+
+  systemd = {
+    user.services.polkit-gnome-authentication-agent-1 = {
+      description = "polkit-gnome-authentication-agent-1";
+      wantedBy = [ "graphical-session.target" ];
+      wants = [ "graphical-session.target" ];
+      after = [ "graphical-session.target" ];
+      serviceConfig = {
+          Type = "simple";
+          ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+          Restart = "on-failure";
+          RestartSec = 1;
+          TimeoutStopSec = 10;
+        };
+    };
   };
 
   # Optional, hint Electron apps to use Wayland:

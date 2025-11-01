@@ -112,3 +112,20 @@
         }
     }
 }
+
+.mirror_screen_button_box {
+    padding: 1em;
+    button {
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+        padding-left: 1em;
+        padding-right: 1em;
+        border-radius: 0.5em;
+        background-color: #3a3a3a;
+
+        &:hover {
+            color: #D35D6E;
+            //background-color: #71c3f6;
+        }
+    }
+}
