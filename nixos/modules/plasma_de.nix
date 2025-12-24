@@ -11,13 +11,15 @@
   
   # Install additional packages
   environment.systemPackages = with pkgs; [
+    kdePackages.kcalc
     kdePackages.filelight
     kdePackages.partitionmanager
     
-    pkgs-unstable.rofi
+    #pkgs-unstable.rofi
+    pkgs-unstable.fuzzel
     
-    pkgs-unstable.kdePackages.krohnkite
-    pkgs-unstable.kdePackages.dynamic-workspaces
+    #pkgs-unstable.kdePackages.krohnkite
+    #pkgs-unstable.kdePackages.dynamic-workspaces
   ];
   
   # Exclude unwanted packages

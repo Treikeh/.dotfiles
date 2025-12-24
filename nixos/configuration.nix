@@ -35,10 +35,11 @@ in
       ./modules/amd.nix
       ./modules/nvidia.nix
 
+      ./modules/plasma_de.nix
       #./modules/gnome_de.nix
-      #./modules/plasma_de.nix
+      #./modules/cosmic_de.nix
       #./modules/hyprland.nix
-      ./modules/niri.nix
+      #./modules/niri.nix
     ];
   
   # Enable flakes
@@ -92,16 +93,18 @@ in
 
   # Enable japanese inputs
   i18n.inputMethod = {
-    type = "fcitx5";
     enable = true;
+    type = "fcitx5";
     fcitx5 = {
       waylandFrontend = true;
       addons = with pkgs; [
         fcitx5-mozc
-        fcitx5-gtk
+        #fcitx5-gtk
+        kdePackages.fcitx5-qt
       ];
     };
   };
+  services.xserver.desktopManager.runXdgAutostartIfNone = true;
 
 
   # Enable the X11 windowing system.
@@ -227,38 +230,42 @@ in
     stow
     ffmpeg-full
     lm_sensors
-
+    
+    # Stuff for bevy
     pkgs-unstable.rustup
-
+    
     vlc
     p7zip
     unrar
     wine
     bottles
     steam-run
+    protontricks # This version had issues when trying to download vcrun for a game, but the flatpak version worked
 
     pkgs-unstable.librewolf
-    obsidian
     pkgs-unstable.vscodium-fhs
+    obsidian
     obs-studio
     libreoffice
-    protonvpn-gui
+    pkgs-unstable.protonvpn-gui
 
     pkgs-unstable.gimp
     pkgs-unstable.lmms
     pkgs-unstable.audacity
     pkgs-unstable.famistudio
+    pkgs-unstable.furnace
     pkgs-unstable.blockbench
 
     anki
     spotify
+    discord
     heroic
+    prismlauncher
 
     # Stuff i need for school
     pkgs-unstable.unityhub
     dotnet-combined # For unity
     python310 # For Unity web builds
-    figma-linux
   ];
 
   # Fonts
@@ -267,7 +274,7 @@ in
     packages = with pkgs; [
       noto-fonts
       noto-fonts-cjk-sans
-      ubuntu_font_family
+      ubuntu-classic
       unifont
       font-awesome
       roboto
@@ -286,7 +293,7 @@ in
   # Remove nano
   programs.nano.enable = false;
 
-  # LD fix
+  # LD fix (That doesn't work, at least not with udev, alsa-lib and wayland)
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
     #

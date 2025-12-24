@@ -6,7 +6,7 @@
 
   inputs = {
     # Current stable channel
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     # Unstable channel
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
