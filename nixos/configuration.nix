@@ -203,18 +203,26 @@ in
   };
 
 
-  # Taken from: https://github.com/ARKye03/Xe_NixOS/blob/trunk/configuration.nix
-  environment.sessionVariables = {
-    #NIXOS_OZONE_WL = "1";
-    DOTNET_ROOT = "${dotnet-combined}";
-    #LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
-  };
+  environment = {
+    variables = {
+      EDITOR = "codium";
+      SYSTEMD_EDITOR = "codium";
+      VISUAL = "codium";
+    };
 
-  # Aliases
-  environment.shellAliases = {
-    update-flake-boot = "sudo nixos-rebuild boot --flake ~/.dotfiles/nixos/#laptop";
-    update-flake-switch = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos/#laptop";
-    delete-old-generations = "sudo nix-collect-garbage --delete-older-than 14d";
+    # Taken from: https://github.com/ARKye03/Xe_NixOS/blob/trunk/configuration.nix
+    sessionVariables = {
+      #NIXOS_OZONE_WL = "1";
+      DOTNET_ROOT = "${dotnet-combined}";
+      #LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+    };
+
+    # Aliases
+    shellAliases = {
+      update-flake-boot = "sudo nixos-rebuild boot --flake ~/.dotfiles/nixos/#laptop";
+      update-flake-switch = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos/#laptop";
+      delete-old-generations = "sudo nix-collect-garbage --delete-older-than 14d";
+    };
   };
 
   # Enable flatpak
@@ -233,14 +241,15 @@ in
     
     # Stuff for bevy
     pkgs-unstable.rustup
-    
+
     vlc
     p7zip
+    zip
     unrar
     wine
     bottles
     steam-run
-    protontricks # This version had issues when trying to download vcrun for a game, but the flatpak version worked
+    #protontricks # This version had issues when trying to download vcrun for a game, but the flatpak version worked
 
     pkgs-unstable.librewolf
     pkgs-unstable.vscodium-fhs
@@ -250,11 +259,14 @@ in
     pkgs-unstable.protonvpn-gui
 
     pkgs-unstable.gimp
+    pkgs-unstable.krita
+    pkgs-unstable.inkscape
     pkgs-unstable.lmms
     pkgs-unstable.audacity
     pkgs-unstable.famistudio
     pkgs-unstable.furnace
     pkgs-unstable.blockbench
+    pkgs-unstable.fontforge
 
     anki
     spotify
