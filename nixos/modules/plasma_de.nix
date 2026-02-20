@@ -20,10 +20,11 @@
     
     #pkgs-unstable.kdePackages.krohnkite
     #pkgs-unstable.kdePackages.dynamic-workspaces
+    kdePackages.kdialog
   ];
   
   # Exclude unwanted packages
-  environment.gnome.excludePackages = with pkgs; [
+  environment.plasma6.excludePackages = with pkgs; [
     kdePackages.kate
     kdePackages.kwrited
     kdePackages.okular

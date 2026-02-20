@@ -2,7 +2,7 @@
 
 (deflisten music_listen :initial "" "playerctl --follow metadata --format '{{ artist }} - {{ title }}' || true")
 
-(defpoll time_poll :interval "10s" "date '+%H:%M %b %d, %Y'")
+(defpoll time_poll :interval "30s" "date '+%H:%M - %d, %b %Y'")
 (defpoll volume_poll :interval "5s" "scripts/getvol")
 (defpoll thermal_poll :interval "5s" "scripts/thermal_info")
 
@@ -15,6 +15,7 @@
         :orientation "h"
         :space-evenly false
         (box :class "label" label)
+        (label :text "${value}%")
         (scale
             :min 0
             :max 101

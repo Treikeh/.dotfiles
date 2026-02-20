@@ -36,10 +36,10 @@ in
       ./modules/nvidia.nix
 
       ./modules/plasma_de.nix
-      #./modules/gnome_de.nix
-      #./modules/cosmic_de.nix
       #./modules/hyprland.nix
       #./modules/niri.nix
+      #./modules/gnome_de.nix
+      #./modules/cosmic_de.nix
     ];
   
   # Enable flakes
@@ -263,8 +263,9 @@ in
     pkgs-unstable.inkscape
     pkgs-unstable.lmms
     pkgs-unstable.audacity
-    pkgs-unstable.famistudio
     pkgs-unstable.furnace
+    pkgs-unstable.famistudio
+    pkgs-unstable.ardour
     pkgs-unstable.blockbench
     pkgs-unstable.fontforge
 

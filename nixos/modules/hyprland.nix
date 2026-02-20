@@ -1,7 +1,11 @@
 { config, pkgs, ... }:
 
 {
-  services.displayManager.ly.enable = true;
+  #services.displayManager.ly.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.displayManager.gdm.wayland = true;
+  #services.displayManager.sddm.enable = true;
+  #services.displayManager.sddm.wayland.enable = true;
   #services.displayManager.lemurs.enable = true; # Have to wait until NixOs channel 25.11 is released
 
   # Enable hypr stuff
@@ -9,7 +13,7 @@
   services.hypridle.enable = true;
   programs.hyprland = {
     enable = true;
-    #withUWSM = true; # Can't launch hyprland with uwsm while using ly
+    withUWSM = true; # Can't launch hyprland with uwsm while using ly
     xwayland.enable = true;
   };
 
@@ -18,25 +22,28 @@
   environment.systemPackages = with pkgs; [
     dunst
     cliphist
-    brightnessctl
+    pamixer
     pavucontrol
     playerctl
+    brightnessctl
     wl-clipboard
-    pamixer
+    wl-mirror
+    file-roller # Gnome zip and extract archives tool
 
     kitty
-    rofi
-    waybar
+    fuzzel
     eww
+    quickshell
     hyprpaper
     hyprpicker
     hyprcursor
     hyprsysteminfo
     hyprpolkitagent
-
     networkmanagerapplet
+
     imv
 
+    # Screen shot tools
     grim
     slurp
 
@@ -58,11 +65,11 @@
   programs.thunar.plugins = with pkgs.xfce; [
     thunar-archive-plugin
     thunar-volman
+    thunar-media-tags-plugin
   ];
 
-  services.gvfs.enable = true;    # ?
+  services.gvfs.enable = true;    # Something about making trash work with thunar
   services.tumbler.enable = true; # File thumbnails
-
 
   services.blueman.enable = true; 
 

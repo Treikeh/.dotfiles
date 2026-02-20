@@ -1,22 +1,25 @@
 { config, pkgs, pkgs-unstable, ... }:
 
 {
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.displayManager.gdm.wayland = true;
+  #services.displayManager.sddm.enable = true;
+  #services.displayManager.sddm.wayland.enable = true;
+  #services.displayManager.ly.enable = true;
 
   programs.niri.enable = true;
 
 
   # Install additional packages
   environment.systemPackages = with pkgs; [
-    mako
-    pamixer
-    pavucontrol
-    playerctl
-    brightnessctl
-    cliphist
-    wl-clipboard
-    wl-mirror
+    mako # Notification daemon
+    cliphist # Clipboard tool
+    pamixer # Audio thing
+    pavucontrol # Audio control panel
+    playerctl # Music control
+    brightnessctl # Brightness control
+    wl-clipboard # Also clipboard tool, both are needed
+    wl-mirror # Screen share
     file-roller # Gnome zip and extract archives tool
 
     alacritty
@@ -25,35 +28,33 @@
     hyprpaper
     hypridle
     hyprlock
-    #swayidle
-    #swaylock
     networkmanagerapplet
 
-    imv
+    imv # Image view
 
-    ianny
+    ianny # Break remainder
     yazi
     btop
     cava
 
-    xwayland-satellite
+    pkgs-unstable.xwayland-satellite
 
     polkit_gnome
     xdg-desktop-portal-gtk
     xdg-desktop-portal-gnome
   ];
 
-  # Exclude unwanted packages
-  environment.gnome.excludePackages = with pkgs; [
-    #
-  ];
+  # Exclude unwanted gnome packages
+  #environment.gnome.excludePackages = with pkgs; [
+  #  #
+  #];
 
   # Thunar stuff
   programs.xfconf.enable = true; # Enable saving thunar preferences
   programs.thunar.enable = true;
   programs.thunar.plugins = with pkgs.xfce; [
-    thunar-volman
-    thunar-archive-plugin
+    thunar-volman # To see volumes
+    thunar-archive-plugin # To be able to extract and archive archive (zip, rar) files
     thunar-media-tags-plugin
   ];
 
@@ -76,6 +77,7 @@
     extraPortals = [pkgs.xdg-desktop-portal-gtk];
     configPackages = [pkgs.xdg-desktop-portal-gtk];
     config.common.default = "gtk";
+    #config.common.default = "kde";
   };
 
   systemd = {

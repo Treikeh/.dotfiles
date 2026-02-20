@@ -1,6 +1,6 @@
 * {
-  all: unset; // Unsets everything so you can style everything from scratch
-  font-size:large
+    all: unset; // Unsets everything so you can style everything from scratch
+    font-size:large
 }
 
 
@@ -9,6 +9,11 @@
 .systray {
     padding-left: 10px;
     padding-right: 15px;
+}
+
+.metric_module {
+    margin-left: 5px;
+    margin-right: 10px;
 }
 
 .metric_module scale trough highlight {
@@ -24,8 +29,6 @@
     border-radius: 50px;
     min-height: 5px;
     min-width: 40px;
-    margin-left: 5px;
-    margin-right: 10px;
 }
 
 .icon_module {
