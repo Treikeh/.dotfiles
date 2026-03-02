@@ -40,6 +40,8 @@ in
       #./modules/niri.nix
       #./modules/gnome_de.nix
       #./modules/cosmic_de.nix
+
+      ../modules/nfc.nix
     ];
   
   # Enable flakes
@@ -247,7 +249,7 @@ in
     zip
     unrar
     wine
-    bottles
+    #bottles # This version has a warning about sandboxing so use flatpak version instead
     steam-run
     #protontricks # This version had issues when trying to download vcrun for a game, but the flatpak version worked
 
