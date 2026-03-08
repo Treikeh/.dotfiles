@@ -73,12 +73,20 @@
     pkgs-unstable.proton-vpn-cli
   ];
 
-  # Aliases
-  shellAliases = {
-    update-flake-boot = "sudo nixos-rebuild boot --flake ~/.dotfiles/nixos/#server";
-    update-flake-switch = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos/#server";
-    delete-free = "sudo nix-collect-garbage -d";
-    delete-old = "sudo nix-collect-garbage --delete-older-than 14d";
+  environment = {
+    variables = {
+      EDITOR = "vim";
+      SYSTEMD_EDITOR = "vim";
+      VISUAL = "vim";
+    };
+
+    # Aliases
+    shellAliases = {
+      update-flake-boot = "sudo nixos-rebuild boot --flake ~/.dotfiles/nixos/#server";
+      update-flake-switch = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos/#server";
+      delete-free = "sudo nix-collect-garbage -d";
+      delete-old = "sudo nix-collect-garbage --delete-older-than 14d";
+    };
   };
 
   # Some programs need SUID wrappers, can be configured further or are
