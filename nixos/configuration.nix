@@ -41,7 +41,7 @@ in
       #./modules/gnome_de.nix
       #./modules/cosmic_de.nix
 
-      ../modules/nfc.nix
+      ./modules/nfc.nix
     ];
   
   # Enable flakes
@@ -271,6 +271,8 @@ in
     pkgs-unstable.blockbench
     pkgs-unstable.fontforge
 
+    pkgs-unstable.distrobox
+
     anki
     spotify
     discord
@@ -329,6 +331,12 @@ in
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+  };
+
+  # To make distrobox work
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
   };
 
   # Some programs need SUID wrappers, can be configured further or are

@@ -21,6 +21,7 @@
     #pkgs-unstable.kdePackages.krohnkite
     #pkgs-unstable.kdePackages.dynamic-workspaces
     kdePackages.kdialog
+    kdePackages.isoimagewriter
   ];
   
   # Exclude unwanted packages
