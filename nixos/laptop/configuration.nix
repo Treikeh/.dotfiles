@@ -28,26 +28,30 @@ let
 in
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./modules/asus.nix
-      ./modules/amd.nix
-      ./modules/nvidia.nix
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
 
-      ./modules/plasma_de.nix
-      #./modules/hyprland.nix
-      #./modules/niri.nix
-      #./modules/gnome_de.nix
-      #./modules/cosmic_de.nix
+    # Hardware stuff
+    ../modules/asus.nix
+    ../modules/amd.nix
+    ../modules/nvidia.nix
 
-      ./modules/nfc.nix
-    ];
+    # Desktop environments
+    ../modules/plasma_de.nix
+    #./modules/hyprland.nix
+    #./modules/niri.nix
+    #./modules/gnome_de.nix
+    #./modules/cosmic_de.nix
+
+    # Other
+    ../modules/nfc.nix
+  ];
   
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   # Allow unfree packages. Would prefer to have this in the flake. Similar to what i have with the pkgs-unstable
-  #nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfree = true;
 
 
   # Bootloader.
@@ -59,7 +63,7 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
 
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "nixos_laptop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
