@@ -24,28 +24,29 @@
   let
     system = "x86_64-linux";
 
-    # The "allowUnfree" option doesn't work
-    #pkgs = import nixpkgs {
-    #  inherit system;
-    #  config.allowUnfree = true;
-    #};
+    pkgs = import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+    };
 
     pkgs-unstable = import nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
     };
-  in
-  {
+  in {
     nixosConfigurations = {
       # Name of config
       laptop = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit system;
+          #inherit pkgs;
           inherit pkgs-unstable;
         };
         # Modules this host uses
         modules = [
-          ./configuration.nix
+          # This is to have this flake manage the allowUnfree variable. inherit pkgs; in specialArgs works, but gives an error and this doesn't
+          { nixpkgs.pkgs = pkgs; }
+          ./laptop.nix
         ];
       };
     };

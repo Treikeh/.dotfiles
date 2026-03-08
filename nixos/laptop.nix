@@ -47,7 +47,7 @@ in
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   # Allow unfree packages. Would prefer to have this in the flake. Similar to what i have with the pkgs-unstable
-  nixpkgs.config.allowUnfree = true;
+  #nixpkgs.config.allowUnfree = true;
 
 
   # Bootloader.
@@ -223,7 +223,8 @@ in
     shellAliases = {
       update-flake-boot = "sudo nixos-rebuild boot --flake ~/.dotfiles/nixos/#laptop";
       update-flake-switch = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos/#laptop";
-      delete-old-generations = "sudo nix-collect-garbage --delete-older-than 14d";
+      delete-free = "sudo nix-collect-garbage -d";
+      delete-old = "sudo nix-collect-garbage --delete-older-than 14d";
     };
   };
 
