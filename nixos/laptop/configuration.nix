@@ -227,6 +227,8 @@ in
     shellAliases = {
       update-flake-boot = "sudo nixos-rebuild boot --flake ~/.dotfiles/nixos/#laptop";
       update-flake-switch = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos/#laptop";
+      update-flake-stable = "sudo nix flake update nixpkgs --flake ~/.dotfiles/nixos";
+      update-flake-unstable = "sudo nix flake update nixpkgs-unstable --flake ~/.dotfiles/nixos";
       delete-free = "sudo nix-collect-garbage -d";
       delete-old = "sudo nix-collect-garbage --delete-older-than 14d";
     };
@@ -279,7 +281,7 @@ in
     pkgs-unstable.distrobox
 
     anki
-    spotify
+    #spotify # Doesn't work for some reason
     discord
     heroic
     prismlauncher
@@ -356,6 +358,11 @@ in
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
+
+  services.netbird.package = pkgs-unstable.netbird;
+  services.netbird.enable = true;
+
+  services.resolved.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
