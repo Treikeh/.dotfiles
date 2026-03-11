@@ -79,13 +79,6 @@
     jellyfin-ffmpeg
   ];
 
-  services.jellyfin = {
-    enable = true;
-    openFirewall = true;
-    dataDir = "/home/treikeh/Jellyfin/.data";
-    user = "treikeh";
-  };
-
   environment = {
     variables = {
       EDITOR = "vim";
@@ -114,6 +107,16 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  services.netbird.package = pkgs-unstable.netbird;
+  services.netbird.enable = true;
+
+  services.jellyfin = {
+    enable = true;
+    openFirewall = true;
+    user = "treikeh";
+    dataDir = "/home/treikeh/Jellyfin/.data";
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
