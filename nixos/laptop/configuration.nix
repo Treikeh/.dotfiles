@@ -359,10 +359,15 @@ in
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
-  services.netbird.package = pkgs-unstable.netbird;
-  services.netbird.enable = true;
+  #services.netbird.package = pkgs-unstable.netbird;
+  #services.netbird.enable = true;
 
-  services.resolved.enable = true;
+  services.tailscale = {
+    enable = true;
+    package = pkgs-unstable.tailscale;
+  };
+
+  #services.resolved.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
