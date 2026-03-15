@@ -107,9 +107,6 @@
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
-
-  #services.netbird.package = pkgs-unstable.netbird;
-  #services.netbird.enable = true;
   
   services.tailscale = {
     enable = true;
@@ -123,6 +120,23 @@
     dataDir = "/home/treikeh/Jellyfin/.data";
   };
 
+  services.searx = {
+    enable = true;
+    package = pkgs-unstable.searxng;
+    environmentFile = "/home/treikeh/.searxng.env";
+    redisCreateLocally = true;
+    settings = {
+      server = {
+        port = 8080;
+        bind_address = "0.0.0.0";
+        secret_key = "$SEARX_SECRET_KEY";
+      };
+    };
+  };
+ 
+  # Allow the server to be active when the lid is closed (server is a laptop) 
+  services.logind.settings.Login.HandleLidSwitch = "ignore";
+ 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
