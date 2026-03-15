@@ -362,12 +362,16 @@ in
   #services.netbird.package = pkgs-unstable.netbird;
   #services.netbird.enable = true;
 
+  #services.resolved.enable = true;
+
   services.tailscale = {
     enable = true;
     package = pkgs-unstable.tailscale;
   };
 
-  #services.resolved.enable = true;
+  # To fix tailscale exit nodes not working
+  networking.firewall.checkReversePath = "loose";
+
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

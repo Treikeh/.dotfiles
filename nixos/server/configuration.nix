@@ -113,6 +113,9 @@
     package = pkgs-unstable.tailscale;
   };
 
+  # To fix tailscale exit nodes not working
+  networking.firewall.checkReversePath = "loose";
+
   services.jellyfin = {
     enable = true;
     openFirewall = true;
