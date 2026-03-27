@@ -33,19 +33,20 @@ in
     ./hardware-configuration.nix
 
     # Hardware stuff
-    ../modules/asus.nix
-    ../modules/amd.nix
-    ../modules/nvidia.nix
+    ../../modules/hardware/asus.nix
+    ../../modules/hardware/amd.nix
+    ../../modules/hardware/nvidia.nix
 
     # Desktop environments
-    ../modules/plasma_de.nix
-    #./modules/hyprland.nix
-    #./modules/niri.nix
-    #./modules/gnome_de.nix
-    #./modules/cosmic_de.nix
+    ../../modules/desktop_environments/custom_plasma.nix
+    #../modules/desktop_environments/plasma.nix
+    #./modules/desktop_environments/hyprland.nix
+    #./modules/desktop_environments/niri.nix
+    #./modules/desktop_environments/gnome.nix
+    #./modules/desktop_environments/cosmic.nix
 
     # Other
-    ../modules/nfc.nix
+    ../../modules/nfc.nix
   ];
   
   # Enable flakes
@@ -246,16 +247,16 @@ in
     lshw
     stow
     ffmpeg-full
-    lm_sensors
+    #lm_sensors
     
     # Stuff for bevy
-    pkgs-unstable.rustup
+    #pkgs-unstable.rustup
 
     vlc
     p7zip
     zip
     unrar
-    wine
+    #wine
     #bottles # This version has a warning about sandboxing so use flatpak version instead
     steam-run
     #protontricks # This version had issues when trying to download vcrun for a game, but the flatpak version worked
@@ -265,25 +266,25 @@ in
     obsidian
     obs-studio
     libreoffice
-    pkgs-unstable.protonvpn-gui
+    #pkgs-unstable.protonvpn-gui
 
     pkgs-unstable.gimp
-    pkgs-unstable.krita
+    #pkgs-unstable.krita
     pkgs-unstable.inkscape
     pkgs-unstable.lmms
     pkgs-unstable.audacity
-    pkgs-unstable.furnace
-    pkgs-unstable.famistudio
-    pkgs-unstable.ardour
+    #pkgs-unstable.furnace
+    #pkgs-unstable.famistudio
+    #pkgs-unstable.ardour
     pkgs-unstable.blockbench
-    pkgs-unstable.fontforge
+    #pkgs-unstable.fontforge
 
-    pkgs-unstable.distrobox
+    #pkgs-unstable.distrobox
 
     anki
     #spotify # Doesn't work for some reason
     discord
-    heroic
+    #heroic
     prismlauncher
 
     # Stuff i need for school
@@ -318,19 +319,19 @@ in
   programs.nano.enable = false;
 
   # LD fix (That doesn't work, at least not with udev, alsa-lib and wayland)
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-    #
-  ];
+  #programs.nix-ld.enable = true;
+  #programs.nix-ld.libraries = with pkgs; [
+  #  #
+  #];
 
   # Enable Appimage
-  programs.appimage.enable = true;
-  programs.appimage.binfmt = true;
-  programs.appimage.package = pkgs.appimage-run.override {
-    extraPkgs = pkgs: [
-      # missing libraries here, e.g.: `pkgs.libepoxy`
-    ];
-  };
+  #programs.appimage.enable = true;
+  #programs.appimage.binfmt = true;
+  #programs.appimage.package = pkgs.appimage-run.override {
+  #  extraPkgs = pkgs: [
+  #    # missing libraries here, e.g.: `pkgs.libepoxy`
+  #  ];
+  #};
 
   # Steam
   programs.steam = {
@@ -341,10 +342,10 @@ in
   };
 
   # To make distrobox work
-  virtualisation.podman = {
-    enable = true;
-    dockerCompat = true;
-  };
+  #virtualisation.podman = {
+  #  enable = true;
+  #  dockerCompat = true;
+  #};
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -386,5 +387,4 @@ in
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
-
 }

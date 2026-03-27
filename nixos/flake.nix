@@ -43,7 +43,7 @@
         };
         # Modules
         modules = [
-          ./laptop/configuration.nix
+          ./hosts/laptop/configuration.nix
         ];
       };
 
@@ -55,7 +55,7 @@
         };
         # Modules
         modules = [
-          ./server/configuration.nix
+          ./hosts/server/configuration.nix
         ];
       };
     };

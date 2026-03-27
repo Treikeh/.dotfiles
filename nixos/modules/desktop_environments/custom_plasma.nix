@@ -5,9 +5,6 @@
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
-
-  # Enable kde connect
-  programs.kdeconnect.enable = true;
   
   # Install additional packages
   environment.systemPackages = with pkgs; [
@@ -15,11 +12,9 @@
     kdePackages.filelight
     kdePackages.partitionmanager
     
-    #pkgs-unstable.rofi
+    # App launcher
     pkgs-unstable.fuzzel
     
-    #pkgs-unstable.kdePackages.krohnkite
-    #pkgs-unstable.kdePackages.dynamic-workspaces
     kdePackages.kdialog
     kdePackages.isoimagewriter
   ];
