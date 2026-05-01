@@ -27,5 +27,6 @@
     kdePackages.kate
     kdePackages.kwrited
     kdePackages.okular
+    kdePackages.elisa
   ];
 }

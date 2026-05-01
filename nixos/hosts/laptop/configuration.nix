@@ -249,7 +249,7 @@
     ffmpeg-full
     #lm_sensors
 
-    rustup
+    #rustup
 
     vlc
     p7zip
@@ -271,7 +271,7 @@
     pkgs-unstable.gimp
     #pkgs-unstable.krita
     pkgs-unstable.inkscape
-    pkgs-unstable.lmms
+    #pkgs-unstable.lmms
     pkgs-unstable.audacity
     #pkgs-unstable.furnace
     pkgs-unstable.famistudio
@@ -279,7 +279,7 @@
     pkgs-unstable.blockbench
     #pkgs-unstable.fontforge
 
-    pkgs-unstable.quickshell
+    #pkgs-unstable.quickshell
 
     #pkgs-unstable.distrobox
 
