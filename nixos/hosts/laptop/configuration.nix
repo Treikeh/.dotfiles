@@ -6,26 +6,26 @@
 
 # Taken from: https://github.com/ARKye03/Xe_NixOS/blob/trunk/configuration.nix
 # Somehow allows vscodium to use the dotnet-sdk
-let
-  dotnet-combined = (with pkgs.dotnetCorePackages; combinePackages [
-    sdk_8_0
-  ]).overrideAttrs (finalAttrs: previousAttrs: {
-    # This is needed to install workload in $HOME
-    # https://discourse.nixos.org/t/dotnet-maui-workload/20370/2
-
-    postBuild = (previousAttrs.postBuild or '''') + ''
-      for i in $out/sdk/*
-      do
-        i=$(basename $i)
-        length=$(printf "%s" "$i" | wc -c)
-        substring=$(printf "%s" "$i" | cut -c 1-$(expr $length - 2))
-        i="$substring""00"
-        mkdir -p $out/metadata/workloads/''${i/-*}
-        touch $out/metadata/workloads/''${i/-*}/userlocal
-      done
-    '';
-  });
-in
+#let
+#  dotnet-combined = (with pkgs.dotnetCorePackages; combinePackages [
+#    sdk_8_0
+#  ]).overrideAttrs (finalAttrs: previousAttrs: {
+#    # This is needed to install workload in $HOME
+#    # https://discourse.nixos.org/t/dotnet-maui-workload/20370/2
+#
+#    postBuild = (previousAttrs.postBuild or '''') + ''
+#      for i in $out/sdk/*
+#      do
+#        i=$(basename $i)
+#        length=$(printf "%s" "$i" | wc -c)
+#        substring=$(printf "%s" "$i" | cut -c 1-$(expr $length - 2))
+#        i="$substring""00"
+#        mkdir -p $out/metadata/workloads/''${i/-*}
+#        touch $out/metadata/workloads/''${i/-*}/userlocal
+#      done
+#    '';
+#  });
+#in
 
 {
   imports = [
@@ -46,7 +46,7 @@ in
     #./modules/desktop_environments/cosmic.nix
 
     # Other
-    ../../modules/nfc.nix
+    #../../modules/nfc.nix
   ];
   
   # Enable flakes
@@ -218,11 +218,11 @@ in
     };
 
     # Taken from: https://github.com/ARKye03/Xe_NixOS/blob/trunk/configuration.nix
-    sessionVariables = {
-      #NIXOS_OZONE_WL = "1";
-      DOTNET_ROOT = "${dotnet-combined}";
-      #LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
-    };
+    #sessionVariables = {
+    #  #NIXOS_OZONE_WL = "1";
+    #  DOTNET_ROOT = "${dotnet-combined}";
+    #  #LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+    #};
 
     # Aliases
     shellAliases = {
@@ -248,9 +248,8 @@ in
     stow
     ffmpeg-full
     #lm_sensors
-    
-    # Stuff for bevy
-    #pkgs-unstable.rustup
+
+    rustup
 
     vlc
     p7zip
@@ -262,6 +261,7 @@ in
     #protontricks # This version had issues when trying to download vcrun for a game, but the flatpak version worked
 
     pkgs-unstable.librewolf
+    pkgs-unstable.mullvad-browser
     pkgs-unstable.vscodium-fhs
     obsidian
     obs-studio
@@ -274,10 +274,12 @@ in
     pkgs-unstable.lmms
     pkgs-unstable.audacity
     #pkgs-unstable.furnace
-    #pkgs-unstable.famistudio
+    pkgs-unstable.famistudio
     #pkgs-unstable.ardour
     pkgs-unstable.blockbench
     #pkgs-unstable.fontforge
+
+    pkgs-unstable.quickshell
 
     #pkgs-unstable.distrobox
 
@@ -286,10 +288,12 @@ in
     discord
     #heroic
     prismlauncher
+    pkgs-unstable.proton-pass
 
     # Stuff i need for school
     pkgs-unstable.unityhub
-    dotnet-combined # For unity
+    dotnet-sdk
+    #dotnet-combined # For unity
     python310 # For Unity web builds
   ];
 
@@ -314,6 +318,8 @@ in
       };
     };
   };
+
+  qt.enable = true;
 
   # Remove nano
   programs.nano.enable = false;
@@ -372,6 +378,11 @@ in
 
   # To fix tailscale exit nodes not working
   networking.firewall.checkReversePath = "loose";
+
+
+  #services.kasmweb = {
+  #  enable = true;
+  #};
 
 
   # Open ports in the firewall.
