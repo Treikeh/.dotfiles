@@ -319,7 +319,7 @@
     };
   };
 
-  qt.enable = true;
+  #qt.enable = true;
 
   # Remove nano
   programs.nano.enable = false;
