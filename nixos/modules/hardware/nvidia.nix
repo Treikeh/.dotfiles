@@ -1,5 +1,5 @@
 # This file was taken from the nixos-harware repo: https://github.com/NixOS/nixos-hardware/tree/master
-{ config, lib, ... }:
+{ config, lib, pkgs-unstable, ... }:
 
 {
   # Load nvidia driver for Xorg and Wayland
@@ -48,13 +48,10 @@
     #open = lib.mkDefault 990 (nvidiaPackage ? open && nvidiaPackage ? firmware);
 
     # Enable the Nvidia settings menu,
-	# accessible via `nvidia-settings`.
+    # accessible via `nvidia-settings`.
     nvidiaSettings = lib.mkDefault true;
 
     # Disable dynamic boost
     dynamicBoost.enable = lib.mkDefault false;
-
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    #package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 }

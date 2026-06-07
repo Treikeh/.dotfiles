@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, lib, pkgs, pkgs-unstable, ... }:
+{ config, lib, pkgs, pkgs-stable, pkgs-unstable, ... }:
 
 # Taken from: https://github.com/ARKye03/Xe_NixOS/blob/trunk/configuration.nix
 # Somehow allows vscodium to use the dotnet-sdk
@@ -228,7 +228,8 @@
     shellAliases = {
       update-flake-boot = "sudo nixos-rebuild boot --flake ~/.dotfiles/nixos/#laptop";
       update-flake-switch = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos/#laptop";
-      update-flake-stable = "sudo nix flake update nixpkgs --flake ~/.dotfiles/nixos";
+      update-flake-default = "sudo nix flake update nixpkgs --flake ~/.dotfiles/nixos";
+      update-flake-stable = "sudo nix flake update nixpkgs-stable --flake ~/.dotfiles/nixos";
       update-flake-unstable = "sudo nix flake update nixpkgs-unstable --flake ~/.dotfiles/nixos";
       delete-free = "sudo nix-collect-garbage -d";
       delete-old = "sudo nix-collect-garbage --delete-older-than 14d";
@@ -267,6 +268,7 @@
     obs-studio
     libreoffice
     #pkgs-unstable.protonvpn-gui
+    pkgs-unstable.proton-pass
 
     pkgs-unstable.gimp
     #pkgs-unstable.krita
@@ -288,13 +290,12 @@
     discord
     #heroic
     prismlauncher
-    pkgs-unstable.proton-pass
 
     # Stuff i need for school
     pkgs-unstable.unityhub
     dotnet-sdk
     #dotnet-combined # For unity
-    python310 # For Unity web builds
+    python315 # For Unity web builds
   ];
 
   # Fonts
@@ -345,6 +346,9 @@
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+    extraCompatPackages = with pkgs; [
+      proton-ge-bin
+    ];
   };
 
   # To make distrobox work
