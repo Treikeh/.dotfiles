@@ -38,10 +38,10 @@
     ../../modules/hardware/nvidia.nix
 
     # Desktop environments
-    ../../modules/desktop_environments/custom_plasma.nix
+    #../../modules/desktop_environments/custom_plasma.nix
+    ../../modules/desktop_environments/niri.nix
     #../modules/desktop_environments/plasma.nix
     #./modules/desktop_environments/hyprland.nix
-    #./modules/desktop_environments/niri.nix
     #./modules/desktop_environments/gnome.nix
     #./modules/desktop_environments/cosmic.nix
 
@@ -173,8 +173,8 @@
         CPU_SCALING_MAX_FREQ_ON_BAT = 2000000;
 
         #Optional helps save long term battery health
-        START_CHARGE_THRESH_BAT0 = 40; # 40 and below it starts to charge
-        STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
+        #START_CHARGE_THRESH_BAT0 = 40; # 40 and below it starts to charge
+        #STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
       };
   };
 
@@ -203,7 +203,7 @@
   users.users.treikeh = {
     isNormalUser = true;
     description = "Treikeh";
-    extraGroups = [ "networkmanager" "wheel" "input" "seat"];
+    extraGroups = [ "networkmanager" "wheel" "input" "seat" "audio"];
     packages = with pkgs; [
       #
     ];
