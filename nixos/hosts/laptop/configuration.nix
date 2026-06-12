@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, lib, pkgs, pkgs-stable, pkgs-unstable, ... }:
+{ config, lib, pkgs, pkgs-unstable, ... }:
 
 # Taken from: https://github.com/ARKye03/Xe_NixOS/blob/trunk/configuration.nix
 # Somehow allows vscodium to use the dotnet-sdk
@@ -32,20 +32,20 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
 
-    # Hardware stuff
+    # Hardware modules
     ../../modules/hardware/asus.nix
     ../../modules/hardware/amd.nix
     ../../modules/hardware/nvidia.nix
 
     # Desktop environments
-    #../../modules/desktop_environments/custom_plasma.nix
     ../../modules/desktop_environments/niri.nix
+    #../../modules/desktop_environments/custom_plasma.nix
     #../modules/desktop_environments/plasma.nix
     #./modules/desktop_environments/hyprland.nix
     #./modules/desktop_environments/gnome.nix
     #./modules/desktop_environments/cosmic.nix
 
-    # Other
+    # Development modules
     #../../modules/nfc.nix
   ];
   
@@ -106,8 +106,8 @@
       waylandFrontend = true;
       addons = with pkgs; [
         fcitx5-mozc
-        #fcitx5-gtk
-        kdePackages.fcitx5-qt
+        fcitx5-gtk
+        #kdePackages.fcitx5-qt
       ];
     };
   };
@@ -247,29 +247,27 @@
     wget
     lshw
     stow
-    ffmpeg-full
     #lm_sensors
 
-    #rustup
-
-    vlc
-    p7zip
     zip
     unrar
+    p7zip
+    ffmpeg-full
+    steam-run
     #wine
     #bottles # This version has a warning about sandboxing so use flatpak version instead
-    steam-run
     #protontricks # This version had issues when trying to download vcrun for a game, but the flatpak version worked
 
+    # General/offce programs
     pkgs-unstable.librewolf
     pkgs-unstable.mullvad-browser
     pkgs-unstable.vscodium-fhs
     obsidian
+    vlc
     obs-studio
     libreoffice
-    #pkgs-unstable.protonvpn-gui
-    pkgs-unstable.proton-pass
 
+    # Art tools
     pkgs-unstable.gimp
     #pkgs-unstable.krita
     pkgs-unstable.inkscape
@@ -281,21 +279,15 @@
     pkgs-unstable.blockbench
     #pkgs-unstable.fontforge
 
-    #pkgs-unstable.quickshell
-
-    #pkgs-unstable.distrobox
-
     anki
-    #spotify # Doesn't work for some reason
     discord
-    #heroic
     prismlauncher
+    pkgs-unstable.proton-pass
 
-    # Stuff i need for school
-    pkgs-unstable.unityhub
+    # Unity stuff
+    unityhub
     dotnet-sdk
-    #dotnet-combined # For unity
-    python315 # For Unity web builds
+    python315 # For web builds
   ];
 
   # Fonts
@@ -319,8 +311,6 @@
       };
     };
   };
-
-  #qt.enable = true;
 
   # Remove nano
   programs.nano.enable = false;
@@ -351,12 +341,6 @@
     ];
   };
 
-  # To make distrobox work
-  #virtualisation.podman = {
-  #  enable = true;
-  #  dockerCompat = true;
-  #};
-
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -370,11 +354,6 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
-  #services.netbird.package = pkgs-unstable.netbird;
-  #services.netbird.enable = true;
-
-  #services.resolved.enable = true;
-
   services.tailscale = {
     enable = true;
     package = pkgs-unstable.tailscale;
@@ -382,12 +361,6 @@
 
   # To fix tailscale exit nodes not working
   networking.firewall.checkReversePath = "loose";
-
-
-  #services.kasmweb = {
-  #  enable = true;
-  #};
-
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

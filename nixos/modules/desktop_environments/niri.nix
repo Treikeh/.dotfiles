@@ -8,44 +8,39 @@
   programs.niri.enable = true;
   systemd.user.services.niri.enableDefaultPath = false;
 
+  # Security
   security.polkit.enable = true;              # polkit
   services.gnome.gnome-keyring.enable = true; # secret service
   security.pam.services.swaylock = {};
 
-  # To get the wayle battery module working
-  services.upower.enable = true;
-
   # Install additional packages
   environment.systemPackages = with pkgs; [
-    ghostty       # Terminal
+    foot          # Terminal
     rofi          # App launcher
-
-    wayle         # Shell stuff (Top bar, Wifi, Bluetooth, Notifications)
-    awww          # For wallpapers
-
-    #yazi          # File manager
+    #yazi          # Terminal file manager
     btop          # System monitor
     kew           # Music player
     wiremix       # Audio manager
     #impala       # Wifi manager
-    #bluetui      # Bluetooth manager
+    bluetui       # Bluetooth manager
 
-    # Utility tools
     playerctl     # Music control
     brightnessctl # Screen brigthness control
     wl-mirror     # Screen mirroring tool
     wl-clipboard  # Wayland clipboard
     cliphist      # Wayland clipboard
-    trash-cli     # Tool to manage the file trash
+    trash-cli     # Tool to manage the file trash can
 
+    wayle         # Top bar
+    awww          # Wallpaper service (Necessary for wayle wallpaper module)
     hypridle      # Idle service
     hyprlock      # Lock service
 
-    nautilus
-    pkgs-unstable.xwayland-satellite
+    nautilus      # GUI file manager
+    xwayland-satellite
   ];
 
-  # Yazi file manager
+  # Yazi settings
   programs.yazi = {
     enable = true;
     plugins = {
@@ -57,10 +52,25 @@
     };
   };
 
+  # Yazi change CWD shell wrapper
+  # See: https://yazi-rs.github.io/docs/quick-start/
+  programs.bash.interactiveShellInit = ''
+    function y() {
+	    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	    command yazi "$@" --cwd-file="$tmp"
+	    IFS= read -r -d "" cwd < "$tmp"
+	    [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+	    command rm -f -- "$tmp"
+    }
+  '';
+
+  # Device and drive mounting services/tools (Necessary for nautilus drive mounting)
   services.gvfs.enable = true;
-  # Mount tool
   services.udisks2.enable = true;
 
-  # Optional, hint Electron apps to use Wayland:
+  # Battery configuration service (Necessary for wayle battery module)
+  services.upower.enable = true;
+
+  # Hint Electron apps to use Wayland:
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 }

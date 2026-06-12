@@ -7,8 +7,6 @@
   inputs = {
     # Default channel
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
-    # Current stable channel
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
     # Unstable channel
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
   };
@@ -16,7 +14,6 @@
   outputs = {
     self,
     nixpkgs,
-    nixpkgs-stable,
     nixpkgs-unstable,
   }:
   let
@@ -27,22 +24,17 @@
     #  config.allowUnfree = true;
     #};
 
-    pkgs-stable = import nixpkgs-stable{
-      inherit system;
-      config.allowUnfree = true;
-    };
-
     pkgs-unstable = import nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
     };
+  
   in {
     nixosConfigurations = {
       # Name of config
       laptop = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit system;
-          inherit pkgs-stable;
           inherit pkgs-unstable;
         };
         # Modules
@@ -55,7 +47,6 @@
       server = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit system;
-          inherit pkgs-stable;
           inherit pkgs-unstable;
         };
         # Modules
