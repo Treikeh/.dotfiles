@@ -2,17 +2,22 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, lib, pkgs, pkgs-unstable, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+
+      #../../modules/display_managers/sddm.nix
+      #../../modules/desktop_environments/plasma.nix
+
+      ../../modules/yazi.nix
     ];
 
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  # Allow unfree packages. Would prefer to have this in the flake. Similar to what i have with the pkgs-unstable
+  # Allow unfree packages.
   nixpkgs.config.allowUnfree = true;
 
   # Bootloader.
@@ -72,7 +77,8 @@
     git
 
     btop
-    yazi
+
+    mullvad-browser
 
     jellyfin
     jellyfin-web
@@ -98,11 +104,7 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  services.tailscale = {
-    enable = true;
-    package = pkgs-unstable.tailscale;
-  };
-
+  services.tailscale.enable = true;
   # To fix tailscale exit nodes not working
   networking.firewall.checkReversePath = "loose";
 
@@ -115,7 +117,6 @@
 
   services.searx = {
     enable = true;
-    package = pkgs-unstable.searxng;
     environmentFile = "/home/treikeh/.searxng.env";
     redisCreateLocally = true;
     settings = {

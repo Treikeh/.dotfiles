@@ -1,5 +1,5 @@
 # This file was taken from the nixos-harware repo: https://github.com/NixOS/nixos-hardware/tree/master
-{ config, lib, pkgs-unstable, ... }:
+{ config, lib, ... }:
 
 {
   # Load nvidia driver for Xorg and Wayland

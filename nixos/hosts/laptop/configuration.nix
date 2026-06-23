@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, lib, pkgs, pkgs-unstable, ... }:
+{ config, lib, pkgs, pkgs-stable, ... }:
 
 # Taken from: https://github.com/ARKye03/Xe_NixOS/blob/trunk/configuration.nix
 # Somehow allows vscodium to use the dotnet-sdk
@@ -37,21 +37,26 @@
     ../../modules/hardware/amd.nix
     ../../modules/hardware/nvidia.nix
 
+    #../../modules/display_managers/sddm.nix
+    #../../modules/display_managers/gdm.nix
+    ../../modules/display_managers/ly.nix
+
     # Desktop environments
     ../../modules/desktop_environments/niri.nix
     #../../modules/desktop_environments/custom_plasma.nix
-    #../modules/desktop_environments/plasma.nix
-    #./modules/desktop_environments/hyprland.nix
-    #./modules/desktop_environments/gnome.nix
-    #./modules/desktop_environments/cosmic.nix
+    #../../modules/desktop_environments/plasma.nix
+    #../../modules/desktop_environments/hyprland.nix
+    #../../modules/desktop_environments/gnome.nix
+    #../../modules/desktop_environments/cosmic.nix
 
     # Development modules
+    ../../modules/unity.nix
     #../../modules/nfc.nix
   ];
   
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  # Allow unfree packages. Would prefer to have this in the flake. Similar to what i have with the pkgs-unstable
+  # Allow unfree packages.
   nixpkgs.config.allowUnfree = true;
 
 
@@ -228,9 +233,7 @@
     shellAliases = {
       update-flake-boot = "sudo nixos-rebuild boot --flake ~/.dotfiles/nixos/#laptop";
       update-flake-switch = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos/#laptop";
-      update-flake-default = "sudo nix flake update nixpkgs --flake ~/.dotfiles/nixos";
-      update-flake-stable = "sudo nix flake update nixpkgs-stable --flake ~/.dotfiles/nixos";
-      update-flake-unstable = "sudo nix flake update nixpkgs-unstable --flake ~/.dotfiles/nixos";
+      update-flake = "sudo nix flake update nixpkgs --flake ~/.dotfiles/nixos";
       delete-free = "sudo nix-collect-garbage -d";
       delete-old = "sudo nix-collect-garbage --delete-older-than 14d";
     };
@@ -259,35 +262,30 @@
     #protontricks # This version had issues when trying to download vcrun for a game, but the flatpak version worked
 
     # General/offce programs
-    pkgs-unstable.librewolf
-    pkgs-unstable.mullvad-browser
-    pkgs-unstable.vscodium-fhs
+    pkgs-stable.librewolf
+    mullvad-browser
+    vscodium-fhs
     obsidian
     vlc
     obs-studio
     libreoffice
 
     # Art tools
-    pkgs-unstable.gimp
-    #pkgs-unstable.krita
-    pkgs-unstable.inkscape
-    #pkgs-unstable.lmms
-    pkgs-unstable.audacity
-    #pkgs-unstable.furnace
-    pkgs-unstable.famistudio
-    #pkgs-unstable.ardour
-    pkgs-unstable.blockbench
-    #pkgs-unstable.fontforge
+    gimp
+    #krita
+    inkscape
+    #lmms
+    audacity
+    #furnace
+    famistudio
+    #ardour
+    blockbench
+    #fontforge
 
     anki
     discord
     prismlauncher
-    pkgs-unstable.proton-pass
-
-    # Unity stuff
-    unityhub
-    dotnet-sdk
-    python315 # For web builds
+    proton-pass
   ];
 
   # Fonts
@@ -354,11 +352,7 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
-  services.tailscale = {
-    enable = true;
-    package = pkgs-unstable.tailscale;
-  };
-
+  services.tailscale.enable = true;
   # To fix tailscale exit nodes not working
   networking.firewall.checkReversePath = "loose";
 

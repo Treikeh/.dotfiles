@@ -5,37 +5,30 @@
   description = "A very basic flake";
 
   inputs = {
-    # Default channel
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
-    # Unstable channel
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
   };
 
   outputs = {
     self,
     nixpkgs,
-    nixpkgs-unstable,
+    nixpkgs-stable,
   }:
   let
     system = "x86_64-linux";
 
-    #pkgs = import nixpkgs {
-    #  inherit system;
-    #  config.allowUnfree = true;
-    #};
-
-    pkgs-unstable = import nixpkgs-unstable {
+    pkgs-stable = import nixpkgs-stable {
       inherit system;
       config.allowUnfree = true;
     };
-  
   in {
     nixosConfigurations = {
       # Name of config
       laptop = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit system;
-          inherit pkgs-unstable;
+          inherit pkgs-stable;
         };
         # Modules
         modules = [
@@ -47,7 +40,6 @@
       server = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit system;
-          inherit pkgs-unstable;
         };
         # Modules
         modules = [

@@ -1,9 +1,11 @@
-{ config, lib, pkgs, pkgs-unstable, ... }:
+{ config, lib, pkgs, ... }:
 
 {
-  # Display manager
-  services.displayManager.ly.enable = true;
-
+  imports =
+  [ # Include the results of the hardware scan.
+    ../yazi.nix
+  ];
+  
   # Enable niri
   programs.niri.enable = true;
   systemd.user.services.niri.enableDefaultPath = false;
@@ -17,7 +19,6 @@
   environment.systemPackages = with pkgs; [
     foot          # Terminal
     rofi          # App launcher
-    #yazi          # Terminal file manager
     btop          # System monitor
     kew           # Music player
     wiremix       # Audio manager
@@ -39,30 +40,6 @@
     nautilus      # GUI file manager
     xwayland-satellite
   ];
-
-  # Yazi settings
-  programs.yazi = {
-    enable = true;
-    plugins = {
-      inherit (pkgs.yaziPlugins) mount;
-      inherit (pkgs.yaziPlugins) wl-clipboard;
-    };
-    settings = {
-      keymap = lib.importTOML ../../../.config/yazi/keymap.toml;
-    };
-  };
-
-  # Yazi change CWD shell wrapper
-  # See: https://yazi-rs.github.io/docs/quick-start/
-  programs.bash.interactiveShellInit = ''
-    function y() {
-	    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	    command yazi "$@" --cwd-file="$tmp"
-	    IFS= read -r -d "" cwd < "$tmp"
-	    [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
-	    command rm -f -- "$tmp"
-    }
-  '';
 
   # Device and drive mounting services/tools (Necessary for nautilus drive mounting)
   services.gvfs.enable = true;

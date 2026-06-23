@@ -1,4 +1,4 @@
-{ config, pkgs, pkgs-unstable, ... }:
+{ config, pkgs, ... }:
 
 {
   # Enable the KDE Plasma Desktop environment
@@ -13,7 +13,7 @@
     kdePackages.partitionmanager
 
     # App launcher
-    pkgs-unstable.fuzzel
+    fuzzel
 
     # Kwin scripts
     kdePackages.dynamic-workspaces
