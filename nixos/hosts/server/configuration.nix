@@ -96,6 +96,7 @@
     shellAliases = {
       update-flake-boot = "sudo nixos-rebuild boot --flake ~/.dotfiles/nixos/#server";
       update-flake-switch = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos/#server";
+      update-flake = "sudo nix flake update nixpkgs --flake ~/.dotfiles/nixos";
       delete-free = "sudo nix-collect-garbage -d";
       delete-old = "sudo nix-collect-garbage --delete-older-than 14d";
     };
