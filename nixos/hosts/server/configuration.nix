@@ -9,8 +9,8 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
 
-      #../../modules/display_managers/sddm.nix
-      #../../modules/desktop_environments/plasma.nix
+      ../../modules/display_managers/sddm.nix
+      ../../modules/desktop_environments/plasma.nix
 
       ../../modules/yazi.nix
     ];
@@ -109,25 +109,25 @@
   # To fix tailscale exit nodes not working
   networking.firewall.checkReversePath = "loose";
 
-  services.jellyfin = {
-    enable = true;
-    openFirewall = true;
-    user = "treikeh";
-    dataDir = "/home/treikeh/Jellyfin/.data";
-  };
+  #services.jellyfin = {
+  #  enable = true;
+  #  openFirewall = true;
+  #  user = "treikeh";
+  #  dataDir = "/home/treikeh/Jellyfin/.data";
+  #};
 
-  services.searx = {
-    enable = true;
-    environmentFile = "/home/treikeh/.searxng.env";
-    redisCreateLocally = true;
-    settings = {
-      server = {
-        port = 8080;
-        bind_address = "0.0.0.0";
-        secret_key = "$SEARX_SECRET_KEY";
-      };
-    };
-  };
+  #services.searx = {
+  #  enable = true;
+  #  environmentFile = "/home/treikeh/.searxng.env";
+  #  redisCreateLocally = true;
+  #  settings = {
+  #    server = {
+  #      port = 8080;
+  #      bind_address = "0.0.0.0";
+  #      secret_key = "$SEARX_SECRET_KEY";
+  #    };
+  #  };
+  #};
 
   #services.vaultwarden = {
   #  enable = true;
