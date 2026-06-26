@@ -9,8 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
 
-      ../../modules/display_managers/sddm.nix
-      ../../modules/desktop_environments/plasma.nix
+      ../../modules/desktop_environments/xfce.nix
 
       ../../modules/yazi.nix
     ];
@@ -69,20 +68,21 @@
     packages = with pkgs; [];
   };
 
+  # Install firefox.
+  programs.firefox.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
     git
+    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    #wget
 
     btop
 
-    mullvad-browser
-
-    jellyfin
-    jellyfin-web
-    jellyfin-ffmpeg
+    #jellyfin
+    #jellyfin-web
+    #jellyfin-ffmpeg
   ];
 
   environment = {
