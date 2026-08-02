@@ -9,8 +9,6 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
 
-      ../../modules/desktop_environments/xfce.nix
-
       ../../modules/yazi.nix
     ];
 
@@ -75,7 +73,8 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     git
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    #vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    evil-helix
     #wget
 
     btop
@@ -87,9 +86,9 @@
 
   environment = {
     variables = {
-      EDITOR = "vim";
-      SYSTEMD_EDITOR = "vim";
-      VISUAL = "vim";
+      EDITOR = "hx";
+      SYSTEMD_EDITOR = "hx";
+      VISUAL = "hx";
     };
 
     # Aliases
@@ -99,16 +98,35 @@
       update-flake = "sudo nix flake update nixpkgs --flake ~/.dotfiles/nixos";
       delete-free = "sudo nix-collect-garbage -d";
       delete-old = "sudo nix-collect-garbage --delete-older-than 14d";
+      vim = "hx";
     };
   };
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  # services.openssh.enable = true;
 
+  # Enable Tailscale
   services.tailscale.enable = true;
-  # To fix tailscale exit nodes not working
+  # Fix tailscale exit nodes not working
   networking.firewall.checkReversePath = "loose";
 
+  # Enable Pi-Hole
+  services.pihole-ftl = {
+    enable = true;
+    settings = {
+      # Public Mullvad dns server
+      dns.upstreams = ["194.242.2.2"];
+      dns.listeningMode = "ALL";
+    };
+  };
+
+  # Enable Pi-Hole web interface
+  services.pihole-web = {
+    enable = true;
+    ports = ["8000"];
+  };
+  
+  # Enable Jellyfin
   #services.jellyfin = {
   #  enable = true;
   #  openFirewall = true;
@@ -116,6 +134,7 @@
   #  dataDir = "/home/treikeh/Jellyfin/.data";
   #};
 
+  # Enable Searxng
   #services.searx = {
   #  enable = true;
   #  environmentFile = "/home/treikeh/.searxng.env";
@@ -129,6 +148,7 @@
   #  };
   #};
 
+  # Enable Vaultwarden
   #services.vaultwarden = {
   #  enable = true;
   #  backupDir = "/home/treikeh/Vaultwarden/backup";
