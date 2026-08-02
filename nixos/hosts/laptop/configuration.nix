@@ -37,17 +37,17 @@
     ../../modules/hardware/amd.nix
     ../../modules/hardware/nvidia.nix
 
-    #../../modules/display_managers/sddm.nix
+    ../../modules/display_managers/sddm.nix
     #../../modules/display_managers/gdm.nix
-    ../../modules/display_managers/ly.nix
+    #../../modules/display_managers/ly.nix
 
     # Desktop environments
-    ../../modules/desktop_environments/niri.nix
-    #../../modules/desktop_environments/custom_plasma.nix
+    ../../modules/desktop_environments/custom_plasma.nix
     #../../modules/desktop_environments/plasma.nix
-    #../../modules/desktop_environments/hyprland.nix
     #../../modules/desktop_environments/gnome.nix
     #../../modules/desktop_environments/cosmic.nix
+    #../../modules/desktop_environments/niri.nix
+    #../../modules/desktop_environments/hyprland.nix
 
     # Development modules
     ../../modules/unity.nix
@@ -217,9 +217,9 @@
 
   environment = {
     variables = {
-      EDITOR = "codium";
-      SYSTEMD_EDITOR = "codium";
-      VISUAL = "codium";
+      EDITOR = "hx";
+      SYSTEMD_EDITOR = "hx";
+      VISUAL = "hx";
     };
 
     # Taken from: https://github.com/ARKye03/Xe_NixOS/blob/trunk/configuration.nix
@@ -236,6 +236,7 @@
       update-flake = "sudo nix flake update nixpkgs --flake ~/.dotfiles/nixos";
       delete-free = "sudo nix-collect-garbage -d";
       delete-old = "sudo nix-collect-garbage --delete-older-than 14d";
+      vim = "hx";
     };
   };
 
@@ -246,17 +247,18 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     git
-    vim
+    evil-helix
     wget
     lshw
     stow
-    #lm_sensors
+    devenv
 
     zip
     unrar
     p7zip
     ffmpeg-full
     steam-run
+    appimage-run
     #wine
     #bottles # This version has a warning about sandboxing so use flatpak version instead
     #protontricks # This version had issues when trying to download vcrun for a game, but the flatpak version worked
@@ -284,8 +286,8 @@
 
     anki
     discord
-    prismlauncher
     proton-pass
+    prismlauncher
   ];
 
   # Fonts
@@ -352,8 +354,9 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
+  # Enable Tailscale
   services.tailscale.enable = true;
-  # To fix tailscale exit nodes not working
+  # Fix tailscale exit nodes not working
   networking.firewall.checkReversePath = "loose";
 
   # Open ports in the firewall.
