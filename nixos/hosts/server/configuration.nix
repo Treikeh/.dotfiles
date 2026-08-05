@@ -62,9 +62,12 @@
   users.users.treikeh = {
     isNormalUser = true;
     description = "treikeh";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [];
   };
+
+  # Autologin user
+  services.getty.autologinUser = "treikeh";
 
   # Install firefox.
   programs.firefox.enable = true;
@@ -78,6 +81,8 @@
     #wget
 
     btop
+
+    docker-compose
 
     #jellyfin
     #jellyfin-web
@@ -110,21 +115,47 @@
   # Fix tailscale exit nodes not working
   networking.firewall.checkReversePath = "loose";
 
-  # Enable Pi-Hole
-  services.pihole-ftl = {
-    enable = true;
-    settings = {
-      # Public Mullvad dns server
-      dns.upstreams = ["194.242.2.2"];
-      dns.listeningMode = "ALL";
-    };
-  };
+  # Enable Docker
+  virtualisation.docker.enable = true;
 
-  # Enable Pi-Hole web interface
-  services.pihole-web = {
-    enable = true;
-    ports = ["8000"];
-  };
+  # # Enable Pi-Hole
+  # services.pihole-ftl = {
+  #   enable = false;
+  #   settings = {
+  #     # Public Mullvad dns server
+  #     dns.upstreams = ["194.242.2.2"];
+  #     dns.listeningMode = "ALL";
+  #   };
+  # };
+
+  # # Enable Pi-Hole web interface
+  # services.pihole-web = {
+  #   enable = false;
+  #   ports = ["8002"];
+  # };
+  
+  # Enable Uptime Kuma
+  # services.uptime-kuma.enable = true;
+  
+  # Enable Syncthing
+  # services.syncthing = {
+  #   enable = true;
+  #   openDefaultPorts = true;
+  #   user = "treikeh";
+  #   configDir = "/home/treikeh/.config/syncthing"
+  #   settings = {
+  #     devices = {
+  #       "phone" = { id = "<DEVICE-ID"; };
+  #     };
+  #     folders = {
+  #       "Syncthing" = {
+  #         path = "/home/treikeh/Syncthing";
+  #       };
+  #     };
+  #   };
+
+  #   guiAddress = "0.0.0.0:8384";
+  # };
   
   # Enable Jellyfin
   #services.jellyfin = {
