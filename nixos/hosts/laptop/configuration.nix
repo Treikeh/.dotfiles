@@ -359,6 +359,51 @@
   # Fix tailscale exit nodes not working
   networking.firewall.checkReversePath = "loose";
 
+  # Enable Syncthing
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true; # Open ports in the firewall for Syncthing. (NOTE: this will not open syncthing gui port)
+    user = "treikeh";
+    configDir = "/home/treikeh/.config/syncthing";
+    settings = {
+       devices = {
+         "phone" = { id = "CSWACCX-TNFWPGO-XPMMPAU-DAW7G3L-U5NCZFU-WK2N5Y5-QTHJS6Y-YWELBAN"; };
+         # "server" = { id = "<DEVICE-ID>"; };
+       };
+      folders = {
+        "notes" = {
+          path = "/home/treikeh/Documents/Notater";
+          devices = [ "phone" ];
+          ignorePerms = true;
+          versioning = {
+            type = "simple";
+            params = {
+              keep = "3";
+              cleanoutDays = "0";
+            };
+          };
+        };
+        "music" = {
+          path = "/home/treikeh/Music/Music";
+          devices = [ "phone" ];
+          ignorePerms = true;
+          versioning = {
+            type = "simple";
+            params = {
+              keep = "3";
+              cleanoutDays = "0";
+            };
+          };
+        };
+        "tmp" = {
+          path = "/home/treikeh/Desktop";
+          devices = [ "phone" ];
+          ignorePerms = true;
+        };
+      };
+    };
+  };
+  
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
