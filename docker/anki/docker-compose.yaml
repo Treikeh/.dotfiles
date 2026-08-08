@@ -1,0 +1,26 @@
+services:
+  anki-sync-server:
+    image: chrislongros/anki-sync-server-enhanced:latest
+    container_name: anki-sync-server
+    ports:
+      - "8081:8081"   # Sync server
+      # - "8081:8081"   # Dashboard
+      # - "9090:9090"   # Metrics
+    environment:
+      - SYNC_USER1=user:password
+      # - SYNC_USER2=bob:password2
+      - TZ=Europe/Oslo
+      - BACKUP_ENABLED=true
+      - BACKUP_SCHEDULE=0 3 * * *
+      - BACKUP_RETENTION_DAYS=7
+      # - METRICS_ENABLED=true
+      # - DASHBOARD_ENABLED=true
+    volumes:
+      - '~/docker/anki:/data'
+      - '~/docker/anki:/backups'
+      # - anki_data:/data
+      # - anki_backups:/backups
+    restart: unless-stopped
+# volumes:
+  # anki_data:
+  # anki_backups:
