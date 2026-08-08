@@ -1,10 +1,11 @@
+# https://chrislongros.com/2026/02/01/self-hosted-anki-sync-server-with-backups-dashboard-and-monitoring/
 services:
   anki-sync-server:
     image: chrislongros/anki-sync-server-enhanced:latest
     container_name: anki-sync-server
     ports:
-      - "8081:8081"   # Sync server
-      # - "8081:8081"   # Dashboard
+      - "8080:8080"   # Sync server
+      - "8081:8081"   # Dashboard
       # - "9090:9090"   # Metrics
     environment:
       - SYNC_USER1=user:password
@@ -14,7 +15,7 @@ services:
       - BACKUP_SCHEDULE=0 3 * * *
       - BACKUP_RETENTION_DAYS=7
       # - METRICS_ENABLED=true
-      # - DASHBOARD_ENABLED=true
+      - DASHBOARD_ENABLED=true
     volumes:
       - '~/docker/anki:/data'
       - '~/docker/anki:/backups'
