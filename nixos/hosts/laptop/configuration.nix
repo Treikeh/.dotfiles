@@ -208,7 +208,7 @@
   users.users.treikeh = {
     isNormalUser = true;
     description = "Treikeh";
-    extraGroups = [ "networkmanager" "wheel" "input" "seat" "audio"];
+    extraGroups = [ "networkmanager" "wheel" "input" "seat" "audio" "docker"];
     packages = with pkgs; [
       #
     ];
@@ -240,9 +240,6 @@
     };
   };
 
-  # Enable flatpak
-  services.flatpak.enable = true;
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -259,6 +256,7 @@
     ffmpeg-full
     steam-run
     appimage-run
+    docker-compose
     #wine
     #bottles # This version has a warning about sandboxing so use flatpak version instead
     #protontricks # This version had issues when trying to download vcrun for a game, but the flatpak version worked
@@ -316,29 +314,32 @@
   programs.nano.enable = false;
 
   # LD fix (That doesn't work, at least not with udev, alsa-lib and wayland)
-  #programs.nix-ld.enable = true;
-  #programs.nix-ld.libraries = with pkgs; [
-  #  #
-  #];
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    # Put here any library that is required when running a package
+  ];
+
+  # Enable flatpak
+  services.flatpak.enable = true;
 
   # Enable Appimage
-  #programs.appimage.enable = true;
-  #programs.appimage.binfmt = true;
-  #programs.appimage.package = pkgs.appimage-run.override {
-  #  extraPkgs = pkgs: [
-  #    # missing libraries here, e.g.: `pkgs.libepoxy`
-  #  ];
-  #};
+  # programs.appimage.enable = true;
+  # programs.appimage.binfmt = true;
+  # programs.appimage.package = pkgs.appimage-run.override {
+  #   extraPkgs = pkgs: [
+  #     # missing libraries here, e.g.: `pkgs.libepoxy`
+  #   ];
+  # };
 
   # Steam
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-    extraCompatPackages = with pkgs; [
-      proton-ge-bin
-    ];
+    # dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    # localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+    # extraCompatPackages = with pkgs; [
+    #   proton-ge-bin
+    # ];
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -354,10 +355,48 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
+  # Docker
+  virtualisation.docker.enable = true;
+
   # Enable Tailscale
   services.tailscale.enable = true;
   # Fix tailscale exit nodes not working
   networking.firewall.checkReversePath = "loose";
+
+  # Enable restic
+  services.restic.backups = {
+    laptop = {
+      initialize = true;
+      # user = "treikeh";
+      environmentFile = "/home/treikeh/.restic-env";
+      repositoryFile = "/home/treikeh/.restic-repo";
+      passwordFile = "/home/treikeh/.restic-password";
+      paths = [
+        "/home/treikeh/Documents/Notater"
+        "/home/treikeh/Music/Music"
+      ];
+      exclude = [
+        "/home/treikeh/**/.stfolder"
+        "/home/treikeh/**/.stversions"
+        "/home/treikeh/**/.trash"
+      ];
+      # backupPrepareCommand = "${pkgs.restic}/bin/restic unlock"; # necessary to prevent locks from persisting indefinitely. See more:# https://forum.restic.net/t/restic-unlock-automation/5511
+      extraBackupArgs = [
+        "--exclude-caches"
+      ];
+      pruneOpts = [
+        "--keep-daily 7"
+        "--keep-weekly 4"
+        "--keep-monthly 2"
+        "--keep-yearly 0"
+      ];
+      timerConfig = {
+        OnCalendar = "monthly";
+        # Trigger backup when laptop starts if it missed the last trigger time
+        Persistent = true;
+      };
+    };
+  };
 
   # Enable Syncthing
   services.syncthing = {

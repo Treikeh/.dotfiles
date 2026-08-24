@@ -12,6 +12,7 @@ _darcs
 \.hg
 
 /nixos
+/docker
 \.Ignore
 
 \.git
