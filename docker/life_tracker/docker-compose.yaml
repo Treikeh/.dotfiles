@@ -1,0 +1,9 @@
+services:
+  app:
+    build: ~/projects/life_tracker/
+    ports:
+      - "5000:5000"
+    volumes:
+      - "~/docker/life_tracker:/etc/app"
+    restart: unless-stopped
+    # command: python app.py
