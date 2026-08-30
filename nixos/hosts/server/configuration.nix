@@ -136,26 +136,104 @@
   
   # Enable Uptime Kuma
   # services.uptime-kuma.enable = true;
+
+  # Enable restic backup
+  services.restic.backups = {
+    server = {
+      initialize = true;
+      environmentFile = "/home/treikeh/.keys/restic/env";
+      repositoryFile = "/home/treikeh/.keys/restic/repo";
+      passwordFile = "/home/treikeh/.keys/restic/password";
+      paths = [
+        "/home/treikeh/docker"
+        "/home/treikeh/Documents"
+        "/home/treikeh/Music"
+        "/home/treikeh/Pictures"
+        "/home/treikeh/Videos"
+      ];
+      exclude = [
+        "/home/treikeh/**/.stfolder"
+        "/home/treikeh/**/.stversions"
+        "/home/treikeh/**/.trash"
+      ];
+      extraBackupArgs = [
+        "--exclude-caches"
+      ];
+      pruneOpts = [
+        "--keep-daily 7"
+        "--keep-weekly 4"
+        "--keep-monthly 2"
+        "--keep-yearly 0"
+      ];
+      timerConfig = {
+        OnCalendar = "monthly";
+        Persistent = true;
+      };
+    };
+  };
   
   # Enable Syncthing
-  # services.syncthing = {
-  #   enable = true;
-  #   openDefaultPorts = true;
-  #   user = "treikeh";
-  #   configDir = "/home/treikeh/.config/syncthing"
-  #   settings = {
-  #     devices = {
-  #       "phone" = { id = "<DEVICE-ID"; };
-  #     };
-  #     folders = {
-  #       "Syncthing" = {
-  #         path = "/home/treikeh/Syncthing";
-  #       };
-  #     };
-  #   };
-
-  #   guiAddress = "0.0.0.0:8384";
-  # };
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true; # Open ports in the firewall for Syncthing. (NOTE: this will not open syncthing gui port)
+    user = "treikeh";
+    configDir = "/home/treikeh/.config/syncthing";
+    key = "/home/treikeh/.keys/syncthing/key.pem";
+    cert = "/home/treikeh/.keys/syncthing/cert.pem";
+    settings = {
+       devices = {
+         "phone" = { id = "CSWACCX-TNFWPGO-XPMMPAU-DAW7G3L-U5NCZFU-WK2N5Y5-QTHJS6Y-YWELBAN"; };
+         "laptop" = { id = "X4UENFN-PI4VFY2-YWD6NWY-F6G3TCR-DY2C4V4-F7AOT7O-5BB6QVV-KFYF6AH"; };
+       };
+      folders = {
+        "notes" = {
+          path = "/home/treikeh/Documents/Notater";
+          devices = [
+            "phone"
+            "laptop"
+          ];
+          ignorePerms = true;
+          versioning = {
+            type = "simple";
+            params = {
+              keep = "3";
+              cleanoutDays = "0";
+            };
+          };
+        };
+        "music" = {
+          path = "/home/treikeh/Music/Music";
+          devices = [
+            "phone"
+            "laptop"
+          ];
+          ignorePerms = true;
+          versioning = {
+            type = "simple";
+            params = {
+              keep = "3";
+              cleanoutDays = "0";
+            };
+          };
+        };
+        "pictures" = {
+          path = "/home/treikeh/Pictures";
+          devices = [
+            "phone"
+            "laptop"
+          ];
+          ingorePerms = true;
+          versioning = {
+            type = "simple";
+            params = {
+              keep = "3";
+              cleanoutDays = "0";
+            };
+          };
+        };
+      };
+    };
+  };
   
   # Enable Jellyfin
   #services.jellyfin = {
