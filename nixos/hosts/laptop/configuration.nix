@@ -283,7 +283,7 @@
     #fontforge
 
     anki
-    discord
+    # discord
     proton-pass
     prismlauncher
   ];
@@ -368,17 +368,24 @@
     laptop = {
       initialize = true;
       # user = "treikeh";
-      environmentFile = "/home/treikeh/.restic-env";
-      repositoryFile = "/home/treikeh/.restic-repo";
-      passwordFile = "/home/treikeh/.restic-password";
+      environmentFile = "/home/treikeh/.keys/restic/env";
+      repositoryFile = "/home/treikeh/.keys/restic/repo";
+      passwordFile = "/home/treikeh/.keys/restic/password";
       paths = [
-        "/home/treikeh/Documents/Notater"
-        "/home/treikeh/Music/Music"
+        "/home/treikeh/_Data"
+        "/home/treikeh/Documents"
+        "/home/treikeh/Music"
+        "/home/treikeh/Pictures"
+        "/home/treikeh/Videos"
       ];
       exclude = [
         "/home/treikeh/**/.stfolder"
         "/home/treikeh/**/.stversions"
         "/home/treikeh/**/.trash"
+        "/home/treikeh/**/BL_proxy"
+        "/home/treikeh/_Data/Blender/.tmp"
+        "/home/treikeh/_Data/Blender/.render_cache"
+        "/home/treikeh/_Data/Unity/Editors"
       ];
       # backupPrepareCommand = "${pkgs.restic}/bin/restic unlock"; # necessary to prevent locks from persisting indefinitely. See more:# https://forum.restic.net/t/restic-unlock-automation/5511
       extraBackupArgs = [
@@ -404,15 +411,20 @@
     openDefaultPorts = true; # Open ports in the firewall for Syncthing. (NOTE: this will not open syncthing gui port)
     user = "treikeh";
     configDir = "/home/treikeh/.config/syncthing";
+    key = "/home/treikeh/.keys/syncthing/key.pem";
+    cert = "/home/treikeh/.keys/syncthing/cert.pem";
     settings = {
        devices = {
-         "phone" = { id = "CSWACCX-TNFWPGO-XPMMPAU-DAW7G3L-U5NCZFU-WK2N5Y5-QTHJS6Y-YWELBAN"; };
-         # "server" = { id = "<DEVICE-ID>"; };
+         # "phone" = { id = "CSWACCX-TNFWPGO-XPMMPAU-DAW7G3L-U5NCZFU-WK2N5Y5-QTHJS6Y-YWELBAN"; };
+         "server" = { id = "OCDQIOJ-62GAI5N-57P7GQI-DLH5MPE-IPNHR7S-HTGETOX-VBLJMSH-DPDJQAP"; };
        };
       folders = {
         "notes" = {
           path = "/home/treikeh/Documents/Notater";
-          devices = [ "phone" ];
+          devices = [
+            # "phone"
+            "server"
+          ];
           ignorePerms = true;
           versioning = {
             type = "simple";
@@ -424,7 +436,10 @@
         };
         "music" = {
           path = "/home/treikeh/Music/Music";
-          devices = [ "phone" ];
+          devices = [
+            # "phone"
+            "server"
+          ];
           ignorePerms = true;
           versioning = {
             type = "simple";
@@ -434,11 +449,26 @@
             };
           };
         };
-        "tmp" = {
-          path = "/home/treikeh/Desktop";
-          devices = [ "phone" ];
-          ignorePerms = true;
+        "pictures" = {
+          path = "/home/treikeh/Pictures";
+          devices = [
+            # "phone"
+            "server"
+          ];
+          ingorePerms = true;
+          versioning = {
+            type = "simple";
+            params = {
+              keep = "3";
+              cleanoutDays = "0";
+            };
+          };
         };
+        # "tmp" = {
+        #   path = "/home/treikeh/Desktop";
+        #   devices = [ "phone" ];
+        #   ignorePerms = true;
+        # };
       };
     };
   };
