@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, lib, pkgs, pkgs-stable, ... }:
+{ config, lib, pkgs, pkgs-stable, user, ... }:
 
 # Taken from: https://github.com/ARKye03/Xe_NixOS/blob/trunk/configuration.nix
 # Somehow allows vscodium to use the dotnet-sdk
@@ -56,8 +56,6 @@
   
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  # Allow unfree packages.
-  nixpkgs.config.allowUnfree = true;
 
 
   # Bootloader.
@@ -205,7 +203,7 @@
 
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.treikeh = {
+  users.users.${user} = {
     isNormalUser = true;
     description = "Treikeh";
     extraGroups = [ "networkmanager" "wheel" "input" "seat" "audio" "docker"];
@@ -367,25 +365,24 @@
   services.restic.backups = {
     laptop = {
       initialize = true;
-      # user = "treikeh";
-      environmentFile = "/home/treikeh/.keys/restic/env";
-      repositoryFile = "/home/treikeh/.keys/restic/repo";
-      passwordFile = "/home/treikeh/.keys/restic/password";
+      environmentFile = "/home/${user}/.keys/restic/env";
+      repositoryFile = "/home/${user}/.keys/restic/repo";
+      passwordFile = "/home/${user}/.keys/restic/password";
       paths = [
-        "/home/treikeh/_Data"
-        "/home/treikeh/Documents"
-        "/home/treikeh/Music"
-        "/home/treikeh/Pictures"
-        "/home/treikeh/Videos"
+        "/home/${user}/_Data"
+        "/home/${user}/Documents"
+        "/home/${user}/Music"
+        "/home/${user}/Pictures"
+        "/home/${user}/Videos"
       ];
       exclude = [
-        "/home/treikeh/**/.stfolder"
-        "/home/treikeh/**/.stversions"
-        "/home/treikeh/**/.trash"
-        "/home/treikeh/**/BL_proxy"
-        "/home/treikeh/_Data/Blender/.tmp"
-        "/home/treikeh/_Data/Blender/.render_cache"
-        "/home/treikeh/_Data/Unity/Editors"
+        "/home/${user}/**/.stfolder"
+        "/home/${user}/**/.stversions"
+        "/home/${user}/**/.trash"
+        "/home/${user}/**/BL_proxy"
+        "/home/${user}/_Data/Blender/.tmp"
+        "/home/${user}/_Data/Blender/.render_cache"
+        "/home/${user}/_Data/Unity/Editors"
       ];
       # backupPrepareCommand = "${pkgs.restic}/bin/restic unlock"; # necessary to prevent locks from persisting indefinitely. See more:# https://forum.restic.net/t/restic-unlock-automation/5511
       extraBackupArgs = [
@@ -409,10 +406,10 @@
   services.syncthing = {
     enable = true;
     openDefaultPorts = true; # Open ports in the firewall for Syncthing. (NOTE: this will not open syncthing gui port)
-    user = "treikeh";
-    configDir = "/home/treikeh/.config/syncthing";
-    key = "/home/treikeh/.keys/syncthing/key.pem";
-    cert = "/home/treikeh/.keys/syncthing/cert.pem";
+    user = "${user}";
+    configDir = "/home/${user}/.config/syncthing";
+    key = "/home/${user}/.keys/syncthing/key.pem";
+    cert = "/home/${user}/.keys/syncthing/cert.pem";
     settings = {
        devices = {
          # "phone" = { id = "CSWACCX-TNFWPGO-XPMMPAU-DAW7G3L-U5NCZFU-WK2N5Y5-QTHJS6Y-YWELBAN"; };
@@ -420,7 +417,7 @@
        };
       folders = {
         "notes" = {
-          path = "/home/treikeh/Documents/Notater";
+          path = "/home/${user}/Documents/Notater";
           devices = [
             # "phone"
             "server"
@@ -435,7 +432,7 @@
           };
         };
         "music" = {
-          path = "/home/treikeh/Music/Music";
+          path = "/home/${user}/Music/Music";
           devices = [
             # "phone"
             "server"
@@ -450,7 +447,7 @@
           };
         };
         "pictures" = {
-          path = "/home/treikeh/Pictures";
+          path = "/home/${user}/Pictures";
           devices = [
             # "phone"
             "server"

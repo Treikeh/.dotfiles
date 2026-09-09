@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pkgs-stable, user, ... }:
 
 {
   imports =
@@ -14,8 +14,6 @@
 
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  # Allow unfree packages.
-  nixpkgs.config.allowUnfree = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -59,7 +57,7 @@
   console.keyMap = "no";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.treikeh = {
+  users.users.${user} = {
     isNormalUser = true;
     description = "treikeh";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
@@ -67,7 +65,7 @@
   };
 
   # Autologin user
-  services.getty.autologinUser = "treikeh";
+  services.getty.autologinUser = "${user}";
 
   # Install firefox.
   programs.firefox.enable = true;
@@ -141,20 +139,20 @@
   services.restic.backups = {
     server = {
       initialize = true;
-      environmentFile = "/home/treikeh/.keys/restic/env";
-      repositoryFile = "/home/treikeh/.keys/restic/repo";
-      passwordFile = "/home/treikeh/.keys/restic/password";
+      environmentFile = "/home/${user}/.keys/restic/env";
+      repositoryFile = "/home/${user}/.keys/restic/repo";
+      passwordFile = "/home/t${user}/.keys/restic/password";
       paths = [
-        "/home/treikeh/docker"
-        "/home/treikeh/Documents"
-        "/home/treikeh/Music"
-        "/home/treikeh/Pictures"
-        "/home/treikeh/Videos"
+        "/home/${user}/docker"
+        "/home/${user}/Documents"
+        "/home/${user}/Music"
+        "/home/${user}/Pictures"
+        "/home/${user}/Videos"
       ];
       exclude = [
-        "/home/treikeh/**/.stfolder"
-        "/home/treikeh/**/.stversions"
-        "/home/treikeh/**/.trash"
+        "/home/${user}/**/.stfolder"
+        "/home/${user}/**/.stversions"
+        "/home/${user}/**/.trash"
       ];
       extraBackupArgs = [
         "--exclude-caches"
@@ -176,10 +174,10 @@
   services.syncthing = {
     enable = true;
     openDefaultPorts = true; # Open ports in the firewall for Syncthing. (NOTE: this will not open syncthing gui port)
-    user = "treikeh";
-    configDir = "/home/treikeh/.config/syncthing";
-    key = "/home/treikeh/.keys/syncthing/key.pem";
-    cert = "/home/treikeh/.keys/syncthing/cert.pem";
+    user = "${user}";
+    configDir = "/home/${user}/.config/syncthing";
+    key = "/home/${user}/.keys/syncthing/key.pem";
+    cert = "/home/${user}/.keys/syncthing/cert.pem";
     settings = {
        devices = {
          "phone" = { id = "CSWACCX-TNFWPGO-XPMMPAU-DAW7G3L-U5NCZFU-WK2N5Y5-QTHJS6Y-YWELBAN"; };
@@ -187,7 +185,7 @@
        };
       folders = {
         "notes" = {
-          path = "/home/treikeh/Documents/Notater";
+          path = "/home/${user}/Documents/Notater";
           devices = [
             "phone"
             "laptop"
@@ -202,7 +200,7 @@
           };
         };
         "music" = {
-          path = "/home/treikeh/Music/Music";
+          path = "/home/${user}/Music/Music";
           devices = [
             "phone"
             "laptop"
@@ -217,7 +215,7 @@
           };
         };
         "pictures" = {
-          path = "/home/treikeh/Pictures";
+          path = "/home/${user}/Pictures";
           devices = [
             "phone"
             "laptop"

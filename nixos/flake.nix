@@ -6,7 +6,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
   };
 
@@ -16,8 +15,16 @@
     nixpkgs-stable,
   }:
   let
+    user = "treikeh";
     system = "x86_64-linux";
 
+    # Allow unfree in unstable pkgs
+    pkgs = import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+    };
+
+    # Allow unfree in stable pkgs
     pkgs-stable = import nixpkgs-stable {
       inherit system;
       config.allowUnfree = true;
@@ -26,8 +33,10 @@
     nixosConfigurations = {
       # Name of config
       laptop = nixpkgs.lib.nixosSystem {
+        inherit system;
+        inherit pkgs;
         specialArgs = {
-          inherit system;
+          inherit user;
           inherit pkgs-stable;
         };
         # Modules
@@ -38,8 +47,11 @@
 
       # Name of config
       server = nixpkgs.lib.nixosSystem {
+        inherit system;
+        inherit pkgs;
         specialArgs = {
-          inherit system;
+          inherit user;
+          inherit pkgs-stable;
         };
         # Modules
         modules = [
