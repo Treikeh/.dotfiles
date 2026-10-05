@@ -35,19 +35,20 @@
     # Hardware modules
     ../../modules/hardware/asus.nix
     ../../modules/hardware/amd.nix
-    ../../modules/hardware/nvidia.nix
+    # ../../modules/hardware/nvidia.nix
 
-    ../../modules/display_managers/sddm.nix
+    #../../modules/display_managers/sddm.nix
     #../../modules/display_managers/gdm.nix
-    #../../modules/display_managers/ly.nix
+    ../../modules/display_managers/ly.nix
 
     # Desktop environments
-    ../../modules/desktop_environments/custom_plasma.nix
+    # ../../modules/desktop_environments/custom_plasma.nix
     #../../modules/desktop_environments/plasma.nix
     #../../modules/desktop_environments/gnome.nix
     #../../modules/desktop_environments/cosmic.nix
     #../../modules/desktop_environments/niri.nix
     #../../modules/desktop_environments/hyprland.nix
+    ../../modules/desktop_environments/hyprland_2.nix
 
     # Development modules
     ../../modules/unity.nix

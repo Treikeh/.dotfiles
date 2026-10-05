@@ -6,18 +6,20 @@
     #../yazi.nix
   ];
   
-  # Enable niri
-  programs.niri.enable = true;
-  systemd.user.services.niri.enableDefaultPath = false;
+  # Enable hypr stuff
+  programs.hyprlock.enable = true;
+  services.hypridle.enable = true;
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true; # Can't launch hyprland with uwsm while using ly
+    xwayland.enable = true;
+  };
 
-  # Security
-  security.polkit.enable = true;              # polkit
-  services.gnome.gnome-keyring.enable = true; # secret service
-  security.pam.services.swaylock = {};
 
   # Install additional packages
   environment.systemPackages = with pkgs; [
     foot          # Terminal
+    kitty
     rofi          # App launcher
     btop          # System monitor
     kew           # Music player
@@ -39,7 +41,6 @@
     hyprlock      # Lock service
 
     nautilus      # GUI file manager
-    xwayland-satellite
   ];
 
   # Device and drive mounting services/tools (Necessary for nautilus drive mounting)

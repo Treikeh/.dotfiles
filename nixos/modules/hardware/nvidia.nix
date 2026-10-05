@@ -2,8 +2,6 @@
 { config, lib, ... }:
 
 {
-  # Load nvidia driver for Xorg and Wayland
-
   # Load video drivers for Xorg and Wayland.
   services.xserver.videoDrivers = lib.mkOverride 990 [ "modesetting" "nvidia" ];
 
