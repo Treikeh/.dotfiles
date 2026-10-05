@@ -19,8 +19,10 @@
   environment.systemPackages = with pkgs; [
     foot          # Terminal
     rofi          # App launcher
+    fsel          # Terminal app launcher
     btop          # System monitor
     kew           # Music player
+    cliamp        # Music player
     wiremix       # Audio manager
     impala        # Wifi manager
     bluetui       # Bluetooth manager
@@ -32,9 +34,13 @@
     wl-clipboard  # Wayland clipboard
     cliphist      # Wayland clipboard
     trash-cli     # Tool to manage the file trash can
+    # lf            # Terminal file manager
+    # chafa         # Image preview tool, needed for image previews in lf
+    # file          # Don't know what it is, but it is needed in order to get image previews with chafa in lf
 
     wayle         # Top bar
     awww          # Wallpaper service (Necessary for wayle wallpaper module)
+    quickshell    # Desktop shell toolkit
     hypridle      # Idle service
     hyprlock      # Lock service
 

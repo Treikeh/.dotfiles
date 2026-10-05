@@ -1,0 +1,5 @@
+map . set hidden!
+
+
+set previewer ~/.config/lf/preview
+

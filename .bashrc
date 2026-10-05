@@ -1,3 +1,4 @@
+
 # Superfile cd_on_quit
 spf() {
     os=$(uname -s)

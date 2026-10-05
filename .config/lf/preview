@@ -1,0 +1,18 @@
+#!/bin/sh
+draw() {
+  chafa --size="${2}x${3}" "$1"
+}
+
+case "$(file -Lb --mime-type "$1")" in
+  image/*)
+    draw "$1" "$2" "$3"
+    ;;
+  application/pdf)
+    pdftoppm -f 1 -singlefile "$1" "/tmp/lfoutput"
+    draw "/tmp/lfoutput.ppm" "$2" "$3"
+    ;;
+  *)
+    less "$1"
+    ;;
+esac
+

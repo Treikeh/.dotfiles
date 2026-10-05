@@ -35,20 +35,20 @@
     # Hardware modules
     ../../modules/hardware/asus.nix
     ../../modules/hardware/amd.nix
-    # ../../modules/hardware/nvidia.nix
+    ../../modules/hardware/nvidia.nix
 
     #../../modules/display_managers/sddm.nix
     #../../modules/display_managers/gdm.nix
     ../../modules/display_managers/ly.nix
 
     # Desktop environments
-    # ../../modules/desktop_environments/custom_plasma.nix
+    #../../modules/desktop_environments/custom_plasma.nix
     #../../modules/desktop_environments/plasma.nix
     #../../modules/desktop_environments/gnome.nix
     #../../modules/desktop_environments/cosmic.nix
-    #../../modules/desktop_environments/niri.nix
+    ../../modules/desktop_environments/niri.nix
     #../../modules/desktop_environments/hyprland.nix
-    ../../modules/desktop_environments/hyprland_2.nix
+    #../../modules/desktop_environments/hyprland_2.nix
 
     # Development modules
     ../../modules/unity.nix
@@ -257,11 +257,15 @@
     appimage-run
     docker-compose
     #wine
-    #bottles # This version has a warning about sandboxing so use flatpak version instead
+    bottles # This version has a warning about sandboxing so use flatpak version instead. The flatpak version is broken - 24.09.2026
     #protontricks # This version had issues when trying to download vcrun for a game, but the flatpak version worked
 
+    # cliamp
+    # quickshell
+    # superfile
+
     # General/offce programs
-    pkgs-stable.librewolf
+    librewolf
     mullvad-browser
     vscodium-fhs
     obsidian
@@ -375,6 +379,7 @@
         "/home/${user}/Music"
         "/home/${user}/Pictures"
         "/home/${user}/Videos"
+        #"/home/${user}/Games"
       ];
       exclude = [
         "/home/${user}/**/.stfolder"
@@ -413,15 +418,15 @@
     cert = "/home/${user}/.keys/syncthing/cert.pem";
     settings = {
        devices = {
-         # "phone" = { id = "CSWACCX-TNFWPGO-XPMMPAU-DAW7G3L-U5NCZFU-WK2N5Y5-QTHJS6Y-YWELBAN"; };
-         "server" = { id = "OCDQIOJ-62GAI5N-57P7GQI-DLH5MPE-IPNHR7S-HTGETOX-VBLJMSH-DPDJQAP"; };
+         "phone" = { id = "CSWACCX-TNFWPGO-XPMMPAU-DAW7G3L-U5NCZFU-WK2N5Y5-QTHJS6Y-YWELBAN"; };
+         #"server" = { id = "OCDQIOJ-62GAI5N-57P7GQI-DLH5MPE-IPNHR7S-HTGETOX-VBLJMSH-DPDJQAP"; };
        };
       folders = {
         "notes" = {
           path = "/home/${user}/Documents/Notater";
           devices = [
-            # "phone"
-            "server"
+            "phone"
+            #"server"
           ];
           ignorePerms = true;
           versioning = {
@@ -435,8 +440,8 @@
         "music" = {
           path = "/home/${user}/Music/Music";
           devices = [
-            # "phone"
-            "server"
+            "phone"
+            #"server"
           ];
           ignorePerms = true;
           versioning = {
@@ -450,8 +455,8 @@
         "pictures" = {
           path = "/home/${user}/Pictures";
           devices = [
-            # "phone"
-            "server"
+            "phone"
+            #"server"
           ];
           ingorePerms = true;
           versioning = {
